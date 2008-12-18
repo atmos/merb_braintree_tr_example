@@ -13,5 +13,5 @@ class User
   
   property :id,     Serial
   property :login,  String
-  
+  property :email,  String
 end

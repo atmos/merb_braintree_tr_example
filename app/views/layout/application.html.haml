@@ -1,0 +1,12 @@
+!!! 1.0
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %base{:href => "#{request.protocol}#{request.host}#{@base_tag}" }
+    %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8" }
+    %meta{"http-equiv" => "Content-Language", :content => "en" }
+    %meta{:name => 'author', :content => "Corey Donohoe" }
+    %title Fresh Merb App
+
+  %body
+    = message[:notice]
+    = catch_content :for_layout
