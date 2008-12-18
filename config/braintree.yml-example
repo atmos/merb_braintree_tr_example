@@ -1,0 +1,6 @@
+key: your_key_here
+key_id: your_key_id_here
+username: your_username_here
+password: your_password_here
+transact_api_url: https://secure.braintreepaymentgateway.com/api/transact.php
+query_api_url: https://secure.braintreepaymentgateway.com/api/query.php

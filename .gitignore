@@ -20,3 +20,4 @@ gems
 merb_profile_results
 bin
 config/database.yml
+config/braintree.yml

@@ -16,9 +16,14 @@ Merb::Config.use do |c|
 end
  
 Merb::BootLoader.before_app_loads do
+  BRAINTREE = { }
   # This will get executed after dependencies have been loaded but before your app's classes have loaded.
 end
  
 Merb::BootLoader.after_app_loads do
+  braintree_configs = YAML.load_file(Merb.root / 'config' / 'braintree.yml')
+  braintree_configs.each do |k,v|
+    BRAINTREE[k.intern] = v
+  end
   # This will get executed after your app's classes have been loaded.
 end
