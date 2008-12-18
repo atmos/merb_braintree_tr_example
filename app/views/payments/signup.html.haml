@@ -1,12 +1,22 @@
 = form :action => 'https://secure.braintreepaymentgateway.com/api/transact.php' do
+  = text_field :id => 'firstname', :name => 'firstname', :value => ''
+  = text_field :id => 'lastname', :name => 'lastname', :value => ''
+  = text_field :id => 'email', :name => 'email', :value => ''
+  = text_field :id => 'address1', :name => 'address1', :value => ''
+  = text_field :id => 'city', :name => 'city', :value => ''
+  = text_field :id => 'state', :name => 'state', :value => '', :size => 2
+  = text_field :id => 'zip', :name => 'zip', :value => '', :size => 2
+  = text_field :id => 'country', :name => 'country', :value => 'US'
+
+  = hidden_field :id => 'payment', :name => 'payment', :value => 'creditcard'
   = hidden_field :id => 'customer_vault', :name => 'customer_vault', :value => 'add_customer'
-  <input id="key_id" type="hidden" value="776320" name="key_id"/>
-  <input id="orderid" type="hidden" value="" name="orderid"/>
-  <input id="amount" type="hidden" value="" name="amount"/>
-  <input id="time" type="hidden" value="20080516190549" name="time"/>
-  <input id="hash" type="hidden" value="c57ec5a89b9850e8b35e945465df6446" name="hash"/>
-  <input id="ccnumber" type="hidden" value="4111111111111111" name="ccnumber"/>
-  <input id="ccexp" type="hidden" value="1010" name="ccexp"/>
-  <input id="customer_vault" type="hidden" value="add_customer" name="customer_vault"/>
-  <input id="customer_vault_id" type="hidden" value="123456" name="customer_vault_id"/>
-  <p><input type="submit" value="Submit" name="
+  = text_field :id => 'ccnumber', :name => 'ccnumber', :value => ''
+  = text_field :id => 'ccexp', :name => 'ccexp', :value => ''
+  
+  = hidden_field :id => 'key_id', :name => 'key_id', :value => '776320'
+  = hidden_field :id => 'order_id', :name => 'order_id', :value => ''
+  = hidden_field :id => 'amount', :name => 'amount', :value => ''
+  = hidden_field :id => 'time', :name => 'time', :value => Time.now.strftime('%Y%m%d%l%M%S')
+  = hidden_field :id => 'hash', :name => 'hash', :value => 'c57ec5a89b9850e8b35e945465df6446'
+  = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:signup_response)
+  %input{:type => 'submit', :name => 'submit', :value => 'Submit'}
