@@ -1,5 +1,4 @@
 # Go to http://wiki.merbivore.com/pages/init-rb
- 
 require 'config/dependencies.rb'
  
 use_orm :datamapper
@@ -21,9 +20,11 @@ Merb::BootLoader.before_app_loads do
 end
  
 Merb::BootLoader.after_app_loads do
-  braintree_configs = YAML.load_file(Merb.root / 'config' / 'braintree.yml')
-  braintree_configs.each do |k,v|
-    BRAINTREE[k.intern] = v
+  bt = YAML.load_file(Merb.root / 'config' / 'braintree.yml')
+  if bt[Merb.env]
+    bt[Merb.env].each do |k,v|
+      BRAINTREE[k.to_sym] = v
+    end
   end
   # This will get executed after your app's classes have been loaded.
 end
