@@ -1,4 +1,3 @@
-require 'digest/md5'
 module Braintree
   class GatewayResponse
 

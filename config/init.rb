@@ -1,6 +1,7 @@
 # Go to http://wiki.merbivore.com/pages/init-rb
 require 'config/dependencies.rb'
- 
+require 'digest/md5'
+
 use_orm :datamapper
 use_test :rspec
 use_template_engine :haml

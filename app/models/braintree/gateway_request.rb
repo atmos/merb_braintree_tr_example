@@ -1,4 +1,3 @@
-require 'digest/md5'
 module Braintree
   class GatewayRequest
     attr_accessor :orderid, :amount, :key, :key_id, :time, :response_url,

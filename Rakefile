@@ -27,9 +27,21 @@ end
 require 'spec/rake/spectask'
 require 'merb-core/test/tasks/spectasks'
 desc 'Default: run spec examples'
-task :default => 'spec'
+task :default => 'spec:ci'
 
 ##############################################################################
 # ADD YOUR CUSTOM TASKS IN /lib/tasks
 # NAME YOUR RAKE FILES file_name.rake
 ##############################################################################
+#
+namespace :spec do
+  Spec::Rake::SpecTask.new(:ci) do |t|
+    t.spec_opts << %w(-fs --color) << %w(-o spec/spec.opts)
+    t.spec_opts << '--loadby' << 'random'
+    t.spec_files = %w(requests models helpers views).collect { |dir| Dir["spec/#{dir}/**/*_spec.rb"] }.flatten
+      t.rcov = ENV.has_key?('NO_RCOV') ? ENV['NO_RCOV'] != 'true' : true
+    t.rcov_opts << '--exclude' << 'spec,config,gems,.salesforce,exceptions.rb,schema.rb'
+    t.rcov_opts << '--text-summary'
+    t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
+  end
+end
