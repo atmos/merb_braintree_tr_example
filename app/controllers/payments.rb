@@ -5,6 +5,10 @@ class Payments < Application
   end
 
   def signup
+    @gateway_request = Braintree::GatewayRequest.new
     render
+  end
+
+  def signup_response
   end
 end

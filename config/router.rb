@@ -36,7 +36,7 @@ Merb::Router.prepare do
   match("/payments/signup").
     to(:controller => 'payments', :action => 'signup').name(:signup)
 
-  match("/payments/signup", :method => :post).
+  match("/payments/signup_response").
     to(:controller => 'payments', :action => 'signup_response').name(:signup_response)
 
   # This is the default route for /:controller/:action/:id

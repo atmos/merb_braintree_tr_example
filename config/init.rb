@@ -1,6 +1,7 @@
 # Go to http://wiki.merbivore.com/pages/init-rb
 require 'config/dependencies.rb'
 require 'digest/md5'
+require 'pp'
 
 use_orm :datamapper
 use_test :rspec
@@ -30,7 +31,8 @@ Merb::BootLoader.after_app_loads do
   # This will get executed after your app's classes have been loaded.
   if Merb.env == 'development'
     DataMapper.auto_migrate!
-    User.create(:login => 'quentin', :email => 'quentin@example.com',
+    user = User.create(:login => 'quentin', :email => 'quentin@example.com',
                 :password => 'foo', :password_confirmation => 'foo')
+    user.vault_tokens.create(:token => '1838120349')  # something i created manually
   end
 end

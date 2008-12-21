@@ -5,6 +5,7 @@
   %ul
   - session.user.vault_tokens.each do |vt|
     %li= vt.inspect
+  %a{:href => url(:signup)} Add another?
 - else
   %p 
     You don't have anything on file currently.
