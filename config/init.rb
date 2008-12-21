@@ -28,4 +28,9 @@ Merb::BootLoader.after_app_loads do
     end
   end
   # This will get executed after your app's classes have been loaded.
+  if Merb.env == 'development'
+    DataMapper.auto_migrate!
+    User.create(:login => 'quentin', :email => 'quentin@example.com',
+                :password => 'foo', :password_confirmation => 'foo')
+  end
 end

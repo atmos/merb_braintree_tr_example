@@ -1,12 +1,25 @@
 !!! 1.0
 %html{:xmlns => "http://www.w3.org/1999/xhtml"}
   %head
-    %base{:href => "#{request.protocol}#{request.host}#{@base_tag}" }
+    %base{:href => "#{request.protocol}://#{request.host}#{@base_tag}" }
     %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8" }
     %meta{"http-equiv" => "Content-Language", :content => "en" }
     %meta{:name => 'author', :content => "Corey Donohoe" }
-    %title Fresh Merb App
+    %title Merb Braintree Transparent Redirect Example
+    = css_include_tag 'master'
 
   %body
-    = message[:notice]
-    = catch_content :for_layout
+    #container
+      #header-container
+        - if session.authenticated?
+          %h2= "Welcome, #{session.user.login}!"
+        %hr
+      #left-container
+        - if session.authenticated?
+          %ul
+            %li
+              %a{:href => '/'} Summary
+      #main-container
+        = message[:notice]
+        = catch_content :for_layout
+

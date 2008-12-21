@@ -33,6 +33,9 @@ Merb::Router.prepare do
   # Adds the required routes for merb-auth using the password slice
   slice(:merb_auth_slice_password, :name_prefix => nil, :path_prefix => "")
   
+  match("/payments/signup").
+    to(:controller => 'payments', :action => 'signup').name(:signup)
+
   match("/payments/signup", :method => :post).
     to(:controller => 'payments', :action => 'signup_response').name(:signup_response)
 
@@ -43,5 +46,5 @@ Merb::Router.prepare do
   default_routes
   
   # Change this for your home page to be available at /
-  # match('/').to(:controller => 'whatever', :action =>'index')
+  match('/').to(:controller => 'payments')
 end

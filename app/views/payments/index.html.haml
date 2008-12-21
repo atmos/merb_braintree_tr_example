@@ -1,1 +1,14 @@
-You're in index of the Payments controller.
+%h2 Hey, here's what we know about your account
+%hr
+%h3 Cards Setup
+- unless session.user.vault_tokens.empty?
+  %ul
+  - session.user.vault_tokens.each do |vt|
+    %li= vt.inspect
+- else
+  %p 
+    You don't have anything on file currently.
+    %a{:href => url(:signup)} Add one now?
+%hr
+%h3 Invoices
+%p Unimplemented

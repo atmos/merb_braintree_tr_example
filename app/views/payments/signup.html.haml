@@ -1,18 +1,18 @@
-= form :action => 'https://secure.braintreepaymentgateway.com/api/transact.php' do
-  = text_field :id => 'firstname', :name => 'firstname', :value => ''
-  = text_field :id => 'lastname', :name => 'lastname', :value => ''
-  = text_field :id => 'email', :name => 'email', :value => ''
-  = text_field :id => 'address1', :name => 'address1', :value => ''
-  = text_field :id => 'city', :name => 'city', :value => ''
-  = text_field :id => 'state', :name => 'state', :value => '', :size => 2
-  = text_field :id => 'zip', :name => 'zip', :value => '', :size => 2
-  = text_field :id => 'country', :name => 'country', :value => 'US'
+= form :action => BRAINTREE[:transact_api_url] do
+  = text_field :id => 'firstname', :name => 'firstname', :label => 'First Name', :value => ''
+  = text_field :id => 'lastname', :name => 'lastname', :label => 'Last Name', :value => ''
+  = text_field :id => 'email', :name => 'email', :value => '', :label => 'Email Address'
+  = text_field :id => 'address1', :name => 'address1', :value => '', :label => 'Address'
+  = text_field :id => 'city', :name => 'city', :value => '', :label => 'City'
+  = text_field :id => 'state', :name => 'state', :value => '', :size => 2, :label => 'State'
+  = text_field :id => 'zip', :name => 'zip', :value => '', :label => 'Zip Code'
+  = text_field :id => 'country', :name => 'country', :value => 'US', :label => 'Country'
 
   = hidden_field :id => 'payment', :name => 'payment', :value => 'creditcard'
   = hidden_field :id => 'customer_vault', :name => 'customer_vault', :value => 'add_customer'
-  = text_field :id => 'ccnumber', :name => 'ccnumber', :value => ''
-  = text_field :id => 'ccexp', :name => 'ccexp', :value => ''
-  
+  = text_field :id => 'ccnumber', :name => 'ccnumber', :value => '', :label => 'Credit Card Number'
+  = text_field :id => 'ccexp', :name => 'ccexp', :value => '', :label => 'Verification Number'
+
   = hidden_field :id => 'key_id', :name => 'key_id', :value => '776320'
   = hidden_field :id => 'order_id', :name => 'order_id', :value => ''
   = hidden_field :id => 'amount', :name => 'amount', :value => ''

@@ -69,6 +69,12 @@ h3 {
   color: black;
 }
 
+#left-container ul {
+  list-style-type: none;
+  font-size: 1.4em;
+  padding-left: 15px;
+}
+
 #left-container h3 {
   color: #c55;
 }
@@ -116,4 +122,7 @@ a:hover {
 }
 #main-container ul {
   margin-left: 3.0em;
+}
+input {
+  display: block;
 }
