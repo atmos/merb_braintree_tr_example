@@ -9,7 +9,6 @@ module Braintree
     def initialize(attributes = nil)
       # FIXME: there is a much easier way to do this.
       attributes.delete_if { |param, value| param == "action" }
-      attributes.delete_if { |param, value| param == "id" }
       attributes.delete_if { |param, value| param == "controller" }
       attributes.each { |k,v| self.send("#{k}=", v) } if attributes.any?
     end
@@ -25,11 +24,11 @@ module Braintree
 
     # This value can be displayed in the flash.
     def message_for_success
-    "Your card has been successfully charged."
+      "Your card has been successfully charged."
     end
 
     def message_for_failure
-    "Your card was declined."
+      "Your card was declined."
     end
 
     # Tests the response given back to determine whether the transaction

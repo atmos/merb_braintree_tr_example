@@ -123,6 +123,10 @@ a:hover {
 #main-container ul {
   margin-left: 3.0em;
 }
+fieldset {
+  padding: 7px;
+}
 input {
   display: block;
+  margin: 2px;
 }

@@ -10,6 +10,6 @@ class Exceptions < Merb::Controller
   end
   
   def standard_error
-    ';)'
+    'App code threw an error ;)'
   end
 end
