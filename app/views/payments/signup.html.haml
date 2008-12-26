@@ -14,6 +14,7 @@
     = hidden_field :id => 'customer_vault', :name => 'customer_vault', :value => 'add_customer'
     = text_field :id => 'ccnumber', :name => 'ccnumber', :value => '', :label => 'Credit Card Number', :class => 'required'
     = text_field :id => 'ccexp', :name => 'ccexp', :value => '', :label => 'Expiration Date(MMYY)', :class => 'required'
+    = text_field :id => 'cvv', :name => 'cvv', :value => '', :label => 'CVV', :class => 'required'
   
     = hidden_field :id => 'key_id', :name => 'key_id', :value => @gateway_request.key_id
     = hidden_field :id => 'order_id', :name => 'order_id', :value => @gateway_request.orderid
