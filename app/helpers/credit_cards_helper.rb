@@ -1,5 +1,5 @@
 module Merb
-  module VaultTokensHelper
+  module CreditCardsHelper
     def card_holders_name(card_record)
       "#{card_record.first_name} #{card_record.last_name}"
     end

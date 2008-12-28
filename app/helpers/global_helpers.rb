@@ -1,5 +1,5 @@
 module Merb
   module GlobalHelpers
-    include Merb::VaultTokensHelper
+    include Merb::CreditCardsHelper
   end
 end

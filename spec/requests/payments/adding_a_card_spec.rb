@@ -1,14 +1,14 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper.rb')
 
 describe "Payments", :given => 'an authenticated user' do
-  describe "/vault_tokens/new" do
+  describe "/credit_cards/new" do
     it "should display a braintree transparent redirect form for customer vault creation" do
-      response = request("/vault_tokens/new")
+      response = request("/credit_cards/new")
       response.should be_successful
       response.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
     end
   end
-  describe "/vault_tokens/new_response" do
+  describe "/credit_cards/new_response" do
     before(:each) do
       @gateway_request = Braintree::GatewayRequest.new
     end
@@ -21,7 +21,7 @@ describe "Payments", :given => 'an authenticated user' do
                           "username"=>"776320", "time"=>@gateway_request.time,
                           "amount"=>"", "transactionid"=>"0", 
                           "type"=>"", "cvvresponse"=>""}
-        response = request("/vault_tokens/new_response", :params => request_params)
+        response = request("/credit_cards/new_response", :params => request_params)
         response.should redirect_to('/')
 
         response = request(response.headers['Location'])
@@ -45,8 +45,8 @@ describe "Payments", :given => 'an authenticated user' do
                           "transactionid"=>"0", 
                           "type"=>"", 
                           "cvvresponse"=>""}
-        response = request("/vault_tokens/new_response", :params => request_params)
-        response.should redirect_to('/vault_tokens/new')
+        response = request("/credit_cards/new_response", :params => request_params)
+        response.should redirect_to('/credit_cards/new')
 
         response = request(response.headers['Location'])
         response.should be_successful

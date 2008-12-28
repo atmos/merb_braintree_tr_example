@@ -21,6 +21,6 @@
     = hidden_field :id => 'amount', :name => 'amount', :value => @gateway_request.amount
     = hidden_field :id => 'time', :name => 'time', :value => @gateway_request.time
     = hidden_field :id => 'hash', :name => 'hash', :value => @gateway_request.hash
-    = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:new_response_vault_tokens)
+    = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:new_response_credit_cards)
     %input{:type => 'submit', :name => 'submit', :value => 'Submit'}
 

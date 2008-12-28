@@ -1,4 +1,4 @@
-class VaultTokens < Application
+class CreditCards < Application
   def new
     @gateway_request = Braintree::GatewayRequest.new
     render
@@ -11,7 +11,7 @@ class VaultTokens < Application
       session.user.vault_tokens.create(:token => @gateway_response.customer_vault_id)
       redirect('/', :message => {:notice => 'Successfully stored your card info securely.'})
     else
-      redirect(url(:new_vault_token), :message => {:notice => @gateway_response.responsetext})
+      redirect(url(:new_credit_card), :message => {:notice => @gateway_response.responsetext})
     end
   end
 
