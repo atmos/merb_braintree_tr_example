@@ -32,7 +32,18 @@ describe "Payments", :given => 'an authenticated user' do
       end
       describe "given a failed transaction" do
         it "send you back to the form with an informative message" do
-          pending
+          response_params = { "avsresponse"=>"N", "response"=>"2", 
+                              "authcode"=>"", "orderid"=>"", 
+                              "responsetext"=>"SUCCESS", "hash"=> @gateway_request.hash,
+                              "response_code"=>"200", "username"=>"776320", "time"=> @gateway_request.time,
+                              "amount"=>"0.99", "transactionid"=>"873766046", 
+                              "type"=>"sale", "cvvresponse"=>""} 
+
+          response = request("/credit_cards/1/payments/new_response", :params => response_params)
+          response.should redirect_to("/credit_cards/1/payments/new")
+
+          response = request(response.headers['Location'])
+          response.should be_successful
         end
       end
     end

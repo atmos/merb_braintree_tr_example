@@ -21,7 +21,7 @@ module BrainTreeEditFormHelper
       "FAIL! :'("
     end
   end
-  def display_an_edit_form_for_quentin
+  def display_a_credit_card_edit_form_for_quentin
     BrainTreeEditFormHelperForQuentin.new
   end
 end
@@ -32,7 +32,7 @@ describe "CreditCards#edit", :given => 'an authenticated user' do
     it "should display a braintree transparent redirect form for customer vault updating" do
       response = request("/credit_cards/1/edit")
       response.should be_successful
-      response.should display_an_edit_form_for_quentin
+      response.should display_a_credit_card_edit_form_for_quentin
     end
   end
   describe "/credit_cards/1/edit_response" do
@@ -58,7 +58,7 @@ describe "CreditCards#edit", :given => 'an authenticated user' do
       end
     end
     describe "given a missing ccexp field" do
-      it "should display the error messages for the user" do
+      it "should display the error messages to the user" do
         request_params = { "avsresponse"=>"", "response"=>"3", 
                            "authcode"=>"", "orderid"=>"", 
                            "responsetext"=>"Field required: ccexp REFID:100585802", 
@@ -72,7 +72,8 @@ describe "CreditCards#edit", :given => 'an authenticated user' do
 
         response = request(response.headers['Location'])
         response.should be_successful
-        response.should display_an_edit_form_for_quentin
+        response.should have_selector("div#main-container:contains('Field required: ccexp REFID:100585802')")
+        response.should display_a_credit_card_edit_form_for_quentin
       end
     end
   end

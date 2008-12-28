@@ -14,44 +14,6 @@ module Braintree
       attributes.each { |k,v| self.send("#{k}=", v) } if attributes.any?
     end
 
-    def to_order_attributes
-      { :orderid => orderid, :amount => amount, :response => response,
-        :responsetext => responsetext, :authcode => authcode, 
-        :transactionid => transactionid, :avsresponse => avsresponse,
-        :cvvresponse => cvvresponse, :response_code => response_code,
-        :full_response => full_response, :status => response_status,
-        :response_hash => returned_hash } 
-    end
-
-    # This value can be displayed in the flash.
-    def message_for_success
-      "Your card has been successfully charged."
-    end
-
-    def message_for_failure
-      "Your card was declined."
-    end
-
-    # Tests the response given back to determine whether the transaction
-    # was successful.  
-    def is_successful?
-      self.response == "1" ? true : false
-    end
-
-    def is_declined?
-      self.response == "2" ? true : false
-    end
-
-    def is_error?
-      self.response == "3" ? true : false
-    end
-
-    # Copies the returned value "hash" to returned_hash attributes since the
-    # word 'hash' is a method of ActiveRecord::Base.
-    def returned_hash
-      self.hash
-    end
-
     # A string representation of the response status given as a number.
     def response_status
       case self.response

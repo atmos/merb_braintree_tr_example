@@ -7,7 +7,7 @@ class Payments < Application
   def new(credit_card_id)
     fetch_credit_card(credit_card_id)
 
-    @gateway_request = Braintree::GatewayRequest.new(:amount => 10.00)
+    @gateway_request = Braintree::GatewayRequest.new(:amount => 0.99)
     render
   end
 
@@ -15,6 +15,7 @@ class Payments < Application
     fetch_credit_card(credit_card_id)
 
     @gateway_response = Braintree::GatewayResponse.new(params.reject { |k,v| k == 'credit_card_id' })
+    raise Unauthorized unless @gateway_response.is_valid?
     Merb.logger.info @gateway_response.inspect
     case @gateway_response.response_status
     when 'approved'
