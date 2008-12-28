@@ -12,9 +12,9 @@
     %tbody
       - session.user.credit_cards.each do |cc|
         %tr
-          %td= cc.card_info.name
-          %td= cc.card_info.address
-          %td= cc.card_info.cc_number
+          %td= cc.info.name
+          %td= cc.info.address
+          %td= cc.info.cc_number
           %td= link_to('More Info', url(:credit_card, cc))
   %a{:href => url(:new_credit_card)} Add another?
 - else

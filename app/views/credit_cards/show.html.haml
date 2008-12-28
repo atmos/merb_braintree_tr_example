@@ -5,11 +5,13 @@
       %th Name
       %th Address
       %th Number
+      %th Edit
   %tbody
     %tr
-      %td= @credit_card.card_info.name
-      %td= @credit_card.card_info.address
-      %td= @credit_card.card_info.cc_number
+      %td= @credit_card.info.name
+      %td= @credit_card.info.address
+      %td= @credit_card.info.cc_number
+      %td= link_to('Edit', url(:edit_credit_card, @credit_card))
 %h3 Invoices
 - unless @credit_card.invoices.empty?
   %table

@@ -6,6 +6,14 @@ describe "CreditCards#new", :given => 'an authenticated user' do
       response = request("/credit_cards/new")
       response.should be_successful
       response.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
+      response.should have_selector("form input#firstname[value='']")
+      response.should have_selector("form input#lastname[value='']")
+      response.should have_selector("form input#email[value='']")
+      response.should have_selector("form input#address1[value='']")
+      response.should have_selector("form input#city[value='']")
+      response.should have_selector("form input#state[value='']")
+      response.should have_selector("form input#country[value='']")
+      response.should have_selector("form input#ccexp[value='']")
     end
   end
   describe "/credit_cards/new_response" do

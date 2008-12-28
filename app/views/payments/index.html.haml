@@ -1,25 +1,2 @@
-%h2 Hey, here's what we know about your account
-%hr
-%h3 Cards Setup
-- unless @tokens.empty?
-  %table
-    %thead
-      %tr
-        %th Name
-        %th Address
-        %th Number
-        %th Expiration
-        %th Invoices
-    %tbody
-      - @tokens.each do |vt|
-        %tr
-          %td= vt.card_info.name
-          %td= vt.card_info.address
-          %td= vt.card_info.cc_exp
-          %td= link_to('More Info', url(:credit_card, vt))
-  %a{:href => url(:new_credit_card)} Add another?
-- else
-  %p 
-    You don't have anything on file currently.
-    %a{:href => url(:new_credit_card)} Add one now?
+%h2 Hey, here's what we know about your payments
 %hr

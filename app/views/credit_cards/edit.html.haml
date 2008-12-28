@@ -1,0 +1,6 @@
+= form :action => BRAINTREE[:transact_api_url], :id => 'edit_vault_form' do
+  %fieldset
+    %legend This is what you can update for this credit card
+    = partial "form"
+    %input{:type => 'submit', :name => 'submit', :value => 'Update'}
+

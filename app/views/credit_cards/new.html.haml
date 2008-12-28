@@ -1,26 +1,6 @@
 = form :action => BRAINTREE[:transact_api_url], :id => 'new_vault_form' do
   %fieldset
     %legend Add the necessary billing info below
-    = text_field :id => 'firstname', :name => 'firstname', :label => 'First Name', :value => '', :class => 'required'
-    = text_field :id => 'lastname', :name => 'lastname', :label => 'Last Name', :value => '', :class => 'required'
-    = text_field :id => 'email', :name => 'email', :value => '', :label => 'Email Address', :class => 'required'
-    = text_field :id => 'address1', :name => 'address1', :value => '', :label => 'Address', :class => 'required'
-    = text_field :id => 'city', :name => 'city', :value => '', :label => 'City', :class => 'required'
-    = text_field :id => 'state', :name => 'state', :value => '', :size => 2, :label => 'State', :class => 'required'
-    = text_field :id => 'zip', :name => 'zip', :value => '', :label => 'Zip Code', :class => 'required'
-    = text_field :id => 'country', :name => 'country', :value => 'US', :label => 'Country', :class => 'required'
-
-    = hidden_field :id => 'payment', :name => 'payment', :value => 'creditcard'
-    = hidden_field :id => 'customer_vault', :name => 'customer_vault', :value => 'add_customer'
-    = text_field :id => 'ccnumber', :name => 'ccnumber', :value => '', :label => 'Credit Card Number', :class => 'required'
-    = text_field :id => 'ccexp', :name => 'ccexp', :value => '', :label => 'Expiration Date(MMYY)', :class => 'required'
-    = text_field :id => 'cvv', :name => 'cvv', :value => '', :label => 'CVV', :class => 'required'
-
-    = hidden_field :id => 'key_id', :name => 'key_id', :value => @gateway_request.key_id
-    = hidden_field :id => 'order_id', :name => 'order_id', :value => @gateway_request.orderid
-    = hidden_field :id => 'amount', :name => 'amount', :value => @gateway_request.amount
-    = hidden_field :id => 'time', :name => 'time', :value => @gateway_request.time
-    = hidden_field :id => 'hash', :name => 'hash', :value => @gateway_request.hash
-    = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:new_response_credit_cards)
+    = partial "form"
     %input{:type => 'submit', :name => 'submit', :value => 'Submit'}
 

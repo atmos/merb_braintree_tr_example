@@ -34,6 +34,6 @@ Merb::BootLoader.after_app_loads do
     DataMapper.auto_migrate!
     user = User.create(:login => 'quentin', :email => 'quentin@example.com',
                 :password => 'foo', :password_confirmation => 'foo')
-    user.credit_cards.create(:token => '1838120349')  # something i created manually
+    user.credit_cards.create(:token => '1379118828')  # something i created manually
   end
 end

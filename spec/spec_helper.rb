@@ -21,8 +21,9 @@ Spec::Runner.configure do |config|
 
   config.before(:all) do
     DataMapper.auto_migrate! if Merb.orm == :datamapper
-    User.create(:login => 'quentin', :email => 'quentin@example.com',
+    user = User.create(:login => 'quentin', :email => 'quentin@example.com',
                 :password => 'lolerskates', :password_confirmation => 'lolerskates')
+    user.credit_cards.create(:token => '407702761')
   end
 end
 

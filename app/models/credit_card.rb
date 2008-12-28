@@ -8,8 +8,8 @@ class CreditCard
   belongs_to :user
 #  validates_is_unique :token, :scope => [:user_id]
 
-  def card_info
-    @card_info ||= CreditCardInfo.new(self)
+  def info
+    @info ||= CreditCardInfo.new(token)
   end
   
   def invoices

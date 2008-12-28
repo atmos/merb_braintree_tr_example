@@ -1,0 +1,6 @@
+= hidden_field :id => 'payment', :name => 'payment', :value => 'creditcard'
+= hidden_field :id => 'key_id', :name => 'key_id', :value => @gateway_request.key_id
+= hidden_field :id => 'order_id', :name => 'order_id', :value => @gateway_request.orderid
+= hidden_field :id => 'amount', :name => 'amount', :value => @gateway_request.amount
+= hidden_field :id => 'time', :name => 'time', :value => @gateway_request.time
+= hidden_field :id => 'hash', :name => 'hash', :value => @gateway_request.hash

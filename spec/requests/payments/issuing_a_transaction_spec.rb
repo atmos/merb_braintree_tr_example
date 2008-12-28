@@ -3,8 +3,6 @@ require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper.rb')
 describe "Payments", :given => 'an authenticated user' do
   before(:each) do
     @gateway_request = Braintree::GatewayRequest.new
-    user = User.first(:login => 'quentin')
-    user.credit_cards.create(:token => '1838120349')
   end
   describe "#new" do
     describe "/credit_cards/1/payments/new" do
