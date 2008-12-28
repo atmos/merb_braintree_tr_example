@@ -1,4 +1,10 @@
 class CreditCards < Application
+  before :ensure_authenticated
+  def index
+    @tokens = session.user.vault_tokens
+    render
+  end
+
   def new
     @gateway_request = Braintree::GatewayRequest.new
     render

@@ -30,7 +30,7 @@ Merb::Router.prepare do
   # RESTful routes
   # resources :posts
   resources :credit_cards, :collection => {:new_response => :get} do
-    resources :payments
+    resources :payments, :collection => {:new_response => :get}
   end
 
   # Adds the required routes for merb-auth using the password slice
@@ -43,5 +43,5 @@ Merb::Router.prepare do
   default_routes
 
   # Change this for your home page to be available at /
-  match('/').to(:controller => 'payments')
+  match('/').to(:controller => 'credit_cards')
 end
