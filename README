@@ -16,6 +16,9 @@ Requirements (UNIX)
 -------------------
 % sudo gem install thor
 % thor merb:gem:install
+% cp config/braintree.yml-example config/braintree.yml
+% cp config/database.yml-example config/database.yml
+% bin/rake
 
 On Localhost
 ------------
