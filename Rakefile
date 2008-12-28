@@ -40,7 +40,7 @@ namespace :spec do
     t.spec_opts << '--loadby' << 'random'
     t.spec_files = %w(requests models helpers views).collect { |dir| Dir["spec/#{dir}/**/*_spec.rb"] }.flatten
       t.rcov = ENV.has_key?('NO_RCOV') ? ENV['NO_RCOV'] != 'true' : true
-    t.rcov_opts << '--exclude' << 'spec,config,gems,.salesforce,exceptions.rb,schema.rb'
+    t.rcov_opts << '--exclude' << 'spec,config,gems,.salesforce,exceptions.rb,schema.rb,merb/merb-auth'
     t.rcov_opts << '--text-summary'
     t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
   end

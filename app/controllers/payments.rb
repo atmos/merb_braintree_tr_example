@@ -18,7 +18,6 @@ class Payments < Application
     Merb.logger.info @gateway_response.inspect
     case @gateway_response.response_status
     when 'approved'
-#      session.user.credit_cards.create(:token => @gateway_response.customer_vault_id)
       redirect(url(:credit_card, @credit_card), :message => {:notice => 'Successfully charged your account.'})
     else
       redirect(url(:new_credit_card_payment), :message => {:notice => @gateway_response.responsetext})
