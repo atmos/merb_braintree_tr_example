@@ -1,16 +1,17 @@
-class VaultToken
+class CreditCard
+  include LibXML
   include DataMapper::Resource
-  attr_accessor :card_info
 
   property :id,     Serial
   property :token,  String, :nullable => false
+  
+  attr_reader :name, :address, :cc_number, :cc_exp
 
   belongs_to :user
 #  validates_is_unique :token, :scope => [:user_id]
 
   def card_info
-    params = { 'customer_vault_id' => token, 'report_type' => 'customer_vault'}
-    @card_info ||= CardRecord.new(BrainTree::Query.new(params).run)
+    @card_info ||= CreditCardInfo.new(self)
   end
   
   def invoices

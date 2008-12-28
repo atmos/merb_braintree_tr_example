@@ -1,7 +1,7 @@
 %h2 Hey, here's what we know about your account
 %hr
 %h3 Cards Setup
-- unless @tokens.empty?
+- unless session.user.credit_cards.empty?
   %table
     %thead
       %tr
@@ -10,11 +10,11 @@
         %th Number
         %th Invoices
     %tbody
-      - @tokens.each do |vt|
+      - session.user.credit_cards.each do |vt|
         %tr
-          %td= card_holders_name(vt.card_info)
-          %td= card_billing_address(vt.card_info)
-          %td= vt.card_info.cc_number
+          %td= vt.name
+          %td= vt.address
+          %td= vt.cc_number
           %td= link_to('More Info', url(:credit_card, vt))
   %a{:href => url(:new_credit_card)} Add another?
 - else

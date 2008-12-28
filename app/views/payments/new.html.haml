@@ -5,7 +5,7 @@
     %p
       %span= @gateway_request.amount
 
-    = hidden_field :id => 'customer_vault_id', :name => 'customer_vault_id', :value => @vault_token.token
+    = hidden_field :id => 'customer_vault_id', :name => 'customer_vault_id', :value => @credit_card.token
     = hidden_field :id => 'type', :name => 'type', :value => 'sale'
 
     = hidden_field :id => 'key_id', :name => 'key_id', :value => @gateway_request.key_id

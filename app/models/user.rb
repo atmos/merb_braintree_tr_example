@@ -15,5 +15,5 @@ class User
   property :login,  String
   property :email,  String
   
-  has n, :vault_tokens
+  has n, :credit_cards
 end

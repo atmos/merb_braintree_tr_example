@@ -8,13 +8,14 @@
         %th Name
         %th Address
         %th Number
+        %th Expiration
         %th Invoices
     %tbody
       - @tokens.each do |vt|
         %tr
-          %td= card_holders_name(vt.card_info)
-          %td= card_billing_address(vt.card_info)
-          %td= vt.card_info.cc_number
+          %td= vt.card_info.name
+          %td= vt.card_info.address
+          %td= vt.card_info.cc_exp
           %td= link_to('More Info', url(:credit_card, vt))
   %a{:href => url(:new_credit_card)} Add another?
 - else

@@ -1,7 +1,6 @@
 class CreditCards < Application
   before :ensure_authenticated
   def index
-    @tokens = session.user.vault_tokens
     render
   end
 
@@ -14,7 +13,7 @@ class CreditCards < Application
     @gateway_response = Braintree::GatewayResponse.new(params)
     case @gateway_response.response_status
     when 'approved'
-      session.user.vault_tokens.create(:token => @gateway_response.customer_vault_id)
+      session.user.credit_cards.create(:token => @gateway_response.customer_vault_id)
       redirect('/', :message => {:notice => 'Successfully stored your card info securely.'})
     else
       redirect(url(:new_credit_card), :message => {:notice => @gateway_response.responsetext})
@@ -22,7 +21,7 @@ class CreditCards < Application
   end
 
   def show(id)
-    @vault_token = VaultToken.first(:id => id, :user_id => session.user.id)
+    fetch_credit_card(id)
     render
   end
 end

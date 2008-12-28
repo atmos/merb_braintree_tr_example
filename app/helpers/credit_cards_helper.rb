@@ -1,11 +1,9 @@
 module Merb
   module CreditCardsHelper
-    def card_holders_name(card_record)
-      "#{card_record.first_name} #{card_record.last_name}"
-    end
-
-    def card_billing_address(card_record)
-      "#{card_record.address_1} (#{card_record.postal_code})"
+    def fetch_credit_card(id)
+      @credit_card = CreditCard.get(id)
+      raise NotFound if @credit_card.nil?
+      raise Unauthorized unless @credit_card.user_id == session.user.id
     end
   end
 end # Merb
