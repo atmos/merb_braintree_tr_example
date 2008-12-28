@@ -14,11 +14,11 @@
           %td= card_holders_name(vt.card_info)
           %td= card_billing_address(vt.card_info)
           %td= vt.card_info.cc_number
-  %a{:href => url(:signup)} Add another?
+  %a{:href => url(:add_card)} Add another?
 - else
   %p 
     You don't have anything on file currently.
-    %a{:href => url(:signup)} Add one now?
+    %a{:href => url(:add_card)} Add one now?
 %hr
 %h3 Invoices
 %p Unimplemented
