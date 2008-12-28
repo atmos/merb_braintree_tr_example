@@ -31,7 +31,7 @@ describe "Payments", :given => 'an authenticated user' do
       end
     end
 
-    describe "given an unsuccessful response" do
+    describe "given an invalid card number" do
       it "should display the card input form again" do
         request_params = {"avsresponse"=>"", 
                           "response"=>"3", 
@@ -51,6 +51,7 @@ describe "Payments", :given => 'an authenticated user' do
         response = request(response.headers['Location'])
         response.should be_successful
         response.should have_selector("div#main-container:contains('Invalid card number REFID:999999999')")
+        response.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
       end
     end
   end
