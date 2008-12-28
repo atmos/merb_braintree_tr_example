@@ -1,4 +1,4 @@
-= form :action => BRAINTREE[:transact_api_url], :id => 'add_card_form' do
+= form :action => BRAINTREE[:transact_api_url], :id => 'new_vault_form' do
   %fieldset
     %legend Add the necessary billing info below
     = text_field :id => 'firstname', :name => 'firstname', :label => 'First Name', :value => '', :class => 'required'
@@ -21,6 +21,6 @@
     = hidden_field :id => 'amount', :name => 'amount', :value => @gateway_request.amount
     = hidden_field :id => 'time', :name => 'time', :value => @gateway_request.time
     = hidden_field :id => 'hash', :name => 'hash', :value => @gateway_request.hash
-    = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:add_card_response)
+    = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:new_response_vault_tokens)
     %input{:type => 'submit', :name => 'submit', :value => 'Submit'}
 

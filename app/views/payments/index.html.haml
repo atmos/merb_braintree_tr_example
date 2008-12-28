@@ -8,17 +8,17 @@
         %th Name
         %th Address
         %th Number
+        %th Invoices
     %tbody
       - @tokens.each do |vt|
         %tr
           %td= card_holders_name(vt.card_info)
           %td= card_billing_address(vt.card_info)
           %td= vt.card_info.cc_number
-  %a{:href => url(:add_card)} Add another?
+          %td= link_to('More Info', url(:vault_token, vt))
+  %a{:href => url(:new_vault_token)} Add another?
 - else
   %p 
     You don't have anything on file currently.
-    %a{:href => url(:add_card)} Add one now?
+    %a{:href => url(:new_vault_token)} Add one now?
 %hr
-%h3 Invoices
-%p Unimplemented

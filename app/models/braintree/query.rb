@@ -12,6 +12,7 @@ module BrainTree
 
       server = Net::HTTP.new(uri.host, 443)
       server.use_ssl = true
+      server.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
       resp = server.start do |http|
         req = Net::HTTP::Post.new(uri.path)

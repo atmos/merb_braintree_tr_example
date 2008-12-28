@@ -29,15 +29,12 @@ Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
   # RESTful routes
   # resources :posts
+  resources :vault_tokens, :collection => {:new_response => :get} do
+    resources :payments
+  end
 
   # Adds the required routes for merb-auth using the password slice
   slice(:merb_auth_slice_password, :name_prefix => nil, :path_prefix => "")
-
-  match("/payments/add_card").
-    to(:controller => 'payments', :action => 'add_card').name(:add_card)
-
-  match("/payments/add_card_response").
-    to(:controller => 'payments', :action => 'add_card_response').name(:add_card_response)
 
   # This is the default route for /:controller/:action/:id
   # This is fine for most cases.  If you're heavily using resource-based

@@ -8,6 +8,7 @@ module Braintree
 
     def initialize(attributes = nil)
       # FIXME: there is a much easier way to do this.
+      attributes.delete_if { |param, value| param == "format" }
       attributes.delete_if { |param, value| param == "action" }
       attributes.delete_if { |param, value| param == "controller" }
       attributes.each { |k,v| self.send("#{k}=", v) } if attributes.any?

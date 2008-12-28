@@ -1,0 +1,24 @@
+%h3 This Card
+%table
+  %thead
+    %tr
+      %th Name
+      %th Address
+      %th Number
+  %tbody
+    %tr
+      %td= card_holders_name(@vault_token.card_info)
+      %td= card_billing_address(@vault_token.card_info)
+      %td= @vault_token.card_info.cc_number
+%h3 Invoices
+- unless @vault_token.invoices.empty?
+  %table
+    %thead
+      %tr
+        %th Name
+    %tbody
+      - @vault_token.invoices.each do |invoice|
+        %tr
+          %td= invoice.inspect
+- else
+  %p No invoices on file for this billing information.

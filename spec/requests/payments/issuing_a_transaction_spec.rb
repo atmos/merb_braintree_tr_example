@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'spec_helper.rb')
+require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper.rb')
 
 describe "Payments", :given => 'an authenticated user' do
   describe "/payments/transaction" do
