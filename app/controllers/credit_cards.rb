@@ -27,13 +27,14 @@ class CreditCards < Application
     render
   end
 
-  def edit_response
-    @gateway_response = Braintree::GatewayResponse.new(params)
+  def edit_response(id)
+    @gateway_response = Braintree::GatewayResponse.new(params.reject { |k,v| k == 'id' })
     case @gateway_response.response_status
     when 'approved'
       redirect(url(:credit_cards), :message => {:notice => 'Successfully updated your info in the vault.'})
     else
-      redirect(url(:new_credit_card), :message => {:notice => @gateway_response.responsetext})
+      fetch_credit_card(id)
+      redirect(url(:edit_credit_card, @credit_card), :message => {:notice => @gateway_response.responsetext})
     end
   end
 

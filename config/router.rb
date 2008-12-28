@@ -29,7 +29,7 @@ Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
   # RESTful routes
   # resources :posts
-  resources :credit_cards, :collection => {:new_response => :get, :edit_response => :get} do
+  resources :credit_cards, :collection => {:new_response => :get}, :member => {:edit_response => :get} do
     resources :payments, :collection => {:new_response => :get}
   end
 

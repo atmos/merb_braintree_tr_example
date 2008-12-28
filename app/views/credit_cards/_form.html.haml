@@ -21,4 +21,4 @@
 - else
   = hidden_field :id => 'customer_vault', :name => 'customer_vault', :value => 'update_customer'
   = hidden_field :id => 'customer_vault_id', :name => 'customer_vault_id', :value => @credit_card.token
-  = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:edit_response_credit_cards)
+  = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:edit_response_credit_card, @credit_card)
