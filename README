@@ -1,0 +1,37 @@
+merb_braintree_tr_example
+-------------------------
+
+A merb app that's an example of braintree's transparent redirect payment gateway.
+
+By using this you can process credit card data but don't store any sensitive
+information in your system.  What's killer is that NO sensitive information
+flows through your system.  As in there's no code in the app that directly
+deals with entire credit card numbers.  We only speak in terms of a token
+that braintree provides.  We couldn't retrieve the entire credit card number
+from the token if we tried.
+
+Requirements (UNIX)
+-------------------
+% sudo gem install thor
+% thor merb:gem:install
+
+On Localhost
+------------
+% script/merb
+% open http://localhost:4000
+
+Login with the username quentin and the password foo.
+
+
+Braintree Info
+--------------
+http://dev.braintreepaymentsolutions.com/
+http://dev.braintreepaymentsolutions.com/test-transaction/
+
+Videos
+--------
+http://braintreepaymentsolutions.com/pci-dss-compliance/
+
+Guidance
+-------------
+http://github.com/braintree/braintree-example-rails/tree/master
