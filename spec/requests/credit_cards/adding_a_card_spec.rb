@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper.rb')
 
-describe "Payments", :given => 'an authenticated user' do
+describe "CreditCards#new", :given => 'an authenticated user' do
   describe "/credit_cards/new" do
     it "should display a braintree transparent redirect form for customer vault creation" do
       response = request("/credit_cards/new")
