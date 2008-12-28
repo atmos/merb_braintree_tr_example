@@ -1,10 +1,19 @@
 %h2 Hey, here's what we know about your account
 %hr
 %h3 Cards Setup
-- unless session.user.vault_tokens.empty?
-  %ul
-  - session.user.vault_tokens.each do |vt|
-    %li= vt.inspect
+- unless @tokens.empty?
+  %table
+    %thead
+      %tr
+        %th Name
+        %th Address
+        %th Number
+    %tbody
+      - @tokens.each do |vt|
+        %tr
+          %td= card_holders_name(vt.card_info)
+          %td= card_billing_address(vt.card_info)
+          %td= vt.card_info.cc_number
   %a{:href => url(:signup)} Add another?
 - else
   %p 

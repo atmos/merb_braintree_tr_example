@@ -1,6 +1,7 @@
 # Go to http://wiki.merbivore.com/pages/init-rb
 require 'config/dependencies.rb'
 require 'digest/md5'
+require 'net/https'
 require 'pp'
 
 use_orm :datamapper

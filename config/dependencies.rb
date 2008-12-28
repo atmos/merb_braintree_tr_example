@@ -27,5 +27,7 @@ dependency "dm-validations", dm_gems_version
 
 dependency 'rcov', '>0.0', :require_as => nil
 
-dependency 'nokogiri', '=1.0.7'
-dependency 'webrat', '=0.3.2'
+dependency 'nokogiri', '=1.0.7', :require_as => nil
+dependency 'webrat', '=0.3.2', :require_as => nil
+dependency 'mongrel', '>1.0', :require_as => nil
+dependency 'libxml-ruby', '=0.9.7', :require_as => 'libxml'
