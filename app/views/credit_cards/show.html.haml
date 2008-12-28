@@ -7,17 +7,17 @@
       %th Number
   %tbody
     %tr
-      %td= card_holders_name(@vault_token.card_info)
-      %td= card_billing_address(@vault_token.card_info)
-      %td= @vault_token.card_info.cc_number
+      %td= @credit_card.card_info.name
+      %td= @credit_card.card_info.address
+      %td= @credit_card.card_info.cc_number
 %h3 Invoices
-- unless @vault_token.invoices.empty?
+- unless @credit_card.invoices.empty?
   %table
     %thead
       %tr
         %th Name
     %tbody
-      - @vault_token.invoices.each do |invoice|
+      - @credit_card.invoices.each do |invoice|
         %tr
           %td= invoice.inspect
 - else

@@ -2,8 +2,8 @@ class CreditCardInfo
   include LibXML
   attr_reader :name, :address, :cc_number, :cc_exp
 
-  def initialize(doc)
-    params = { 'customer_vault_id' => token, 'report_type' => 'customer_vault'}
+  def initialize(credit_card)
+    params = { 'customer_vault_id' => credit_card.token, 'report_type' => 'customer_vault'}
     collect_card_info(BrainTree::Query.new(params).run)
   end
 

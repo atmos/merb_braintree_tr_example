@@ -4,8 +4,6 @@ class CreditCard
 
   property :id,     Serial
   property :token,  String, :nullable => false
-  
-  attr_reader :name, :address, :cc_number, :cc_exp
 
   belongs_to :user
 #  validates_is_unique :token, :scope => [:user_id]
@@ -15,7 +13,6 @@ class CreditCard
   end
   
   def invoices
-    params = { 'customer_vault_id' => token }
-    @invoices ||= Invoice.parse(BrainTree::Query.new(params).run)
+    @invoices ||= CreditCardInvoice.parse(self)
   end
 end

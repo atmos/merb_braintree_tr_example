@@ -10,12 +10,12 @@
         %th Number
         %th Invoices
     %tbody
-      - session.user.credit_cards.each do |vt|
+      - session.user.credit_cards.each do |cc|
         %tr
-          %td= vt.name
-          %td= vt.address
-          %td= vt.cc_number
-          %td= link_to('More Info', url(:credit_card, vt))
+          %td= cc.card_info.name
+          %td= cc.card_info.address
+          %td= cc.card_info.cc_number
+          %td= link_to('More Info', url(:credit_card, cc))
   %a{:href => url(:new_credit_card)} Add another?
 - else
   %p 
