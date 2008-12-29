@@ -1,0 +1,8 @@
+= form :action => BRAINTREE[:transact_api_url], :id => 'delete_vault_form' do
+  %fieldset
+    %legend I'm about to delete your billing information, are you sure you want to?
+    = partial "gateway_request"
+    = hidden_field :id => 'customer_vault', :name => 'customer_vault', :value => 'delete_customer'
+    = hidden_field :id => 'customer_vault_id', :name => 'customer_vault_id', :value => @credit_card.token
+    = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:credit_cards)
+    %input{:type => 'submit', :name => 'submit', :value => 'Delete'}

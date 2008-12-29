@@ -43,4 +43,10 @@ class CreditCards < Application
     fetch_credit_card(id)
     render
   end
+
+  def destroy(id)
+    fetch_credit_card(id)
+    @gateway_request = Braintree::GatewayRequest.new
+    render
+  end
 end
