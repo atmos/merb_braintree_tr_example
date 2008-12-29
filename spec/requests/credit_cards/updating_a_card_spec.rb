@@ -36,17 +36,17 @@ describe "CreditCards#edit", :given => 'an authenticated user' do
     end
   end
   describe "/credit_cards/1/edit_response" do
-    before(:each) do
-      @gateway_request = Braintree::GatewayRequest.new
-    end
     describe "given a successful response" do
       it "store the response token in an associated object for the user" do
+        gw_response = Braintree::GatewayResponse.new(:orderid => '', :amount => '',
+                                                     :response => '1', :transactionid => '0',
+                                                     :avsresponse => '', :cvvresponse => '')
         request_params = {"avsresponse"=>"", "response"=>"1", 
                           "authcode"=>"", "orderid"=>"", 
                           "customer_vault_id"=>"407702761", 
                           "responsetext"=>"Customer Update Successful", 
-                          "hash"=>@gateway_request.hash, "response_code"=>"100", 
-                          "username"=>"776320", "time"=>@gateway_request.time, 
+                          "hash"=>gw_response.generated_hash, "response_code"=>"100", 
+                          "username"=>"776320", "time"=>gw_response.time, 
                           "amount"=>"", "transactionid"=>"0", "type"=>"", "cvvresponse"=>"" }
         response = request("/credit_cards/1/edit_response", :params => request_params)
         response.should redirect_to('/credit_cards')
@@ -59,11 +59,14 @@ describe "CreditCards#edit", :given => 'an authenticated user' do
     end
     describe "given a missing ccexp field" do
       it "should display the error messages to the user" do
+        gw_response = Braintree::GatewayResponse.new(:orderid => '', :amount => '',
+                                                     :response => '3', :transactionid => '0',
+                                                     :avsresponse => '', :cvvresponse => '')
         request_params = { "avsresponse"=>"", "response"=>"3", 
                            "authcode"=>"", "orderid"=>"", 
                            "responsetext"=>"Field required: ccexp REFID:100585802", 
-                           "hash"=>@gateway_request.hash, "response_code"=>"300", 
-                           "username"=>"776320", "time"=>@gateway_request.time, 
+                           "hash"=>gw_response.generated_hash, "response_code"=>"300", 
+                           "username"=>"776320", "time"=>gw_response.time, 
                            "amount"=>"", "transactionid"=>"0", "type"=>"", 
                            "cvvresponse"=>""}
 

@@ -11,7 +11,7 @@ class CreditCards < Application
 
   def new_response
     @gateway_response = Braintree::GatewayResponse.new(params)
-#    raise Unauthorized unless @gateway_response.is_valid?
+    raise Unauthorized unless @gateway_response.is_valid?
     case @gateway_response.response_status
     when 'approved'
       session.user.credit_cards.create(:token => @gateway_response.customer_vault_id)
@@ -29,7 +29,7 @@ class CreditCards < Application
 
   def edit_response(id)
     @gateway_response = Braintree::GatewayResponse.new(params.reject { |k,v| k == 'id' })
-#    raise Unauthorized unless @gateway_response.is_valid?
+    raise Unauthorized unless @gateway_response.is_valid?
     case @gateway_response.response_status
     when 'approved'
       redirect(url(:credit_cards), :message => {:notice => 'Successfully updated your info in the vault.'})
