@@ -1,5 +1,4 @@
 class Payments < Application
-  before :ensure_authenticated
   def index
     render
   end
@@ -15,8 +14,7 @@ class Payments < Application
     fetch_credit_card(credit_card_id)
 
     @gateway_response = Braintree::GatewayResponse.new(params.reject { |k,v| k == 'credit_card_id' })
-#    raise Unauthorized unless @gateway_response.is_valid?
-    Merb.logger.info @gateway_response.inspect
+    raise Unauthorized unless @gateway_response.is_valid?
     case @gateway_response.response_status
     when 'approved'
       redirect(url(:credit_card, @credit_card), :message => {:notice => 'Successfully charged your account.'})

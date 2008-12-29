@@ -26,6 +26,10 @@ module Braintree
       end
     end
 
+    def returned_hash
+      self.hash
+    end
+
     # The hash sent with the Gateway Response should equal a hash that can get
     # generated using the key and the sent parameters.
     def is_valid?
