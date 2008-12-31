@@ -33,3 +33,4 @@ dependency 'nokogiri', '=1.0.7', :require_as => nil
 dependency 'webrat', '=0.3.2', :require_as => nil
 dependency 'mongrel', '>1.0', :require_as => nil
 dependency 'libxml-ruby', '=0.9.7', :require_as => 'libxml'
+dependency 'ruby-debug', '=0.10.3', :require_as => nil

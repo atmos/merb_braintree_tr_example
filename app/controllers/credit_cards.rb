@@ -5,7 +5,7 @@ class CreditCards < Application
 
   def new
     @credit_card = CreditCard.new
-    @gateway_request = Braintree::GatewayRequest.new
+    @gateway_request = Braintree::GatewayRequest.new(:orderid => Digest::SHA1.hexdigest(Time.now.to_s))
     render
   end
 
@@ -15,8 +15,13 @@ class CreditCards < Application
     case @gateway_response.response_status
     when 'approved'
       session.user.credit_cards.create(:token => @gateway_response.customer_vault_id)
+      query_params = {:transaction_id => params['transactionid'], :transaction_type => 'cc', :action_type => 'sale'}
+      transaction_info = BrainTree::Query.new(query_params).run
       redirect('/', :message => {:notice => 'Successfully stored your card info securely.'})
     else
+      query_params = {:transaction_id => params['transactionid'], :transaction_type => 'cc', :action_type => 'sale'}
+      transaction_info = BrainTree::Query.new(query_params).run
+      Merb.logger.info! transaction_info.inspect
       redirect(url(:new_credit_card), :message => {:notice => @gateway_response.responsetext})
     end
   end

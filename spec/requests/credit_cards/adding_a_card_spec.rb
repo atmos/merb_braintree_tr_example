@@ -1,8 +1,8 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper.rb')
 
-describe "CreditCards#new", :given => 'an authenticated user' do
-  describe "/credit_cards/new" do
-    it "should display a braintree transparent redirect form for customer vault creation" do
+describe "adding a credit card", :given => 'an authenticated user' do
+  describe "the signup form" do
+    it "should be valid" do
       response = request("/credit_cards/new")
       response.should be_successful
       response.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
@@ -13,57 +13,50 @@ describe "CreditCards#new", :given => 'an authenticated user' do
       response.should have_selector("form input#city[value='']")
       response.should have_selector("form input#state[value='']")
       response.should have_selector("form input#country[value='']")
+      response.should have_selector("form input#ccnumber[value='']")
       response.should have_selector("form input#ccexp[value='']")
+
+      response.should have_selector("form input#type[value='sale'][type='hidden']")
+      response.should have_selector("form input#amount[value='10.00'][type='hidden']")
     end
   end
-  describe "/credit_cards/new_response" do
-    describe "given a successful response" do
-      it "store the response token in an associated object for the user" do
-        gw_response = Braintree::GatewayResponse.new(:orderid => '', :amount => '',
-                                                     :response => '1', :transactionid => '0',
-                                                     :avsresponse => '', :cvvresponse => '')
-        request_params = {"avsresponse" => "", "response"=> "1", 
-                          "authcode"    => "", "orderid" => "", 
-                          "customer_vault_id"=>"1074650921", "responsetext"=>"Customer Added", 
-                          "hash"=> gw_response.generated_hash, "response_code"=>"100", 
-                          "username"=>"776320", "time"=>gw_response.time,
-                          "amount"=>"", "transactionid"=>"0", 
-                          "type"=>"", "cvvresponse"=>""}
-        response = request("/credit_cards/new_response", :params => request_params)
-        response.should redirect_to('/')
+  describe "a successful transaction on signup" do
+    it "should be successful and display basic card info in the ui" do
+      api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(quentin_form_info)
+      params = api_response.query_values
+      params.reject! { |k,v| v == true }
 
-        response = request(response.headers['Location'])
-        response.should be_successful
-        response.should have_selector("div#main-container:contains('Successfully stored your card info securely.')")
-        response.should have_selector("div#main-container table tbody td")
-      end
+      response = request("/credit_cards/new_response", :params => params)
+      response.should redirect_to('/')
+
+      response = request(response.headers['Location'])
+      response.should be_successful
+      response.should have_selector("div#main-container:contains('Successfully stored your card info securely.')")
+      response.should have_selector("div#main-container table tbody td")
     end
+  end
+  describe "a declined transaction on signup" do
+    it "should be successful and display basic card info in the ui" do
+      api_response = Braintree::GatewayRequest.new(:amount => '0.99').post(quentin_form_info)
+      params = api_response.query_values
+      params.reject! { |k,v| v == true }
 
-    describe "given an invalid card number" do
-      it "should display the card input form again" do
-        gw_response = Braintree::GatewayResponse.new(:orderid => '', :amount => '',
-                                                     :response => '3', :transactionid => '0',
-                                                     :avsresponse => '', :cvvresponse => '')
-        request_params = {"avsresponse"=>"", 
-                          "response"=>"3", 
-                          "authcode"=>"", "orderid"=>"", 
-                          "responsetext"=>"Invalid card number REFID:999999999", 
-                          "hash"=> gw_response.generated_hash,
-                          "response_code"=>"300", 
-                          "username"=>"776320", 
-                          "time"=> gw_response.time,
-                          "amount"=>"", 
-                          "transactionid"=>"0", 
-                          "type"=>"", 
-                          "cvvresponse"=>""}
-        response = request("/credit_cards/new_response", :params => request_params)
-        response.should redirect_to('/credit_cards/new')
+      response = request("/credit_cards/new_response", :params => params)
+      response.should redirect_to("/credit_cards/new")
 
-        response = request(response.headers['Location'])
-        response.should be_successful
-        response.should have_selector("div#main-container:contains('Invalid card number REFID:999999999')")
-        response.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
-      end
+      response = request(response.headers['Location'])
+      response.should be_successful
+      response.should have_selector("div#main-container:contains('DECLINE')")
+      response.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
+#      response.should have_selector("form input#firstname[value='Quentin']")
+#      response.should have_selector("form input#lastname[value='Blake']")
+#      response.should have_selector("form input#email[value='quentin@example.org']")
+#      response.should have_selector("form input#address1[value='187 Drive By Blvd']")
+#      response.should have_selector("form input#city[value='Compton']")
+#      response.should have_selector("form input#state[value='CA']")
+#      response.should have_selector("form input#country[value='US']")
+#      response.should have_selector("form input#ccnumber[value='']")
+#      response.should have_selector("form input#ccexp[value='']")
     end
   end
 end
