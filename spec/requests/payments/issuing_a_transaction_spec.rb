@@ -29,7 +29,6 @@ describe "Payments", :given => 'a user with a credit card in the vault' do
           response = request(response.headers['Location'])
           response.should be_successful
           response.should have_selector("div#main-container:contains('Successfully charged your Credit Card.')")
-
         end
       end
       describe "given a failed transaction" do
@@ -37,7 +36,7 @@ describe "Payments", :given => 'a user with a credit card in the vault' do
           query_params = { 'customer_vault_id' => @token, 'type' => 'sale', 'amount' => '0.99',
                            'redirect' => 'http://example.org/credit_cards/1/new_response' }
 
-          api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(query_params)
+          api_response = Braintree::GatewayRequest.new(:amount => '0.99').post(query_params)
           params = api_response.query_values
           params.reject! { |k,v| v == true }
 
@@ -46,6 +45,7 @@ describe "Payments", :given => 'a user with a credit card in the vault' do
 
           response = request(response.headers['Location'])
           response.should be_successful
+          response.should have_selector("div#main-container:contains('DECLINE')")
         end
       end
     end

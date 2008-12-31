@@ -17,10 +17,14 @@
   %table
     %thead
       %tr
-        %th Name
+        %th Date
+        %th Amount
+        %th Card
     %tbody
       - @credit_card.invoices.each do |invoice|
         %tr
-          %td= invoice.inspect
+          %td= braintree_date_reformatter(invoice.transaction_info.date)
+          %td= invoice.transaction_info.amount
+          %td= invoice.transaction_info.cc_number
 - else
   %p No invoices on file for this billing information.

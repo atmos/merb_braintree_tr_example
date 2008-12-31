@@ -1,7 +1,7 @@
 module Braintree
   class TransactionInfo
     attr_reader :first_name, :last_name, :email, :address_1, :city, :state, :postal_code, :country
-    attr_reader :cc_exp, :amount
+    attr_reader :cc_number, :cc_exp, :amount, :date
 
     def initialize(transaction_id = nil)
       @transaction_id = transaction_id
@@ -21,6 +21,8 @@ module Braintree
       @country     = info.find('/nm_response/transaction/country').first.content
       @cc_exp      = info.find('/nm_response/transaction/cc_exp').first.content
       @amount      = info.find('/nm_response/transaction/action/amount').first.content
+      @date        = info.find('/nm_response/transaction/action/date').first.content
+      @cc_number   = info.find('/nm_response/transaction/cc_number').first.content
     end
   end
 end
