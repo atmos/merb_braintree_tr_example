@@ -20,9 +20,10 @@ describe "adding a credit card", :given => 'an authenticated user' do
       response.should have_selector("form input#amount[value='10.00'][type='hidden']")
     end
   end
+
   describe "a successful transaction on signup" do
     it "should be successful and display basic card info in the ui" do
-      api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(quentin_form_info)
+      api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
       params = api_response.query_values
       params.reject! { |k,v| v == true }
 
@@ -35,9 +36,10 @@ describe "adding a credit card", :given => 'an authenticated user' do
       response.should have_selector("div#main-container table tbody td")
     end
   end
+
   describe "a declined transaction on signup" do
-    it "should be successful and display basic card info in the ui" do
-      api_response = Braintree::GatewayRequest.new(:amount => '0.99').post(quentin_form_info)
+    it "should display the signup form again, prepopulated with the info from the failed transaction" do
+      api_response = Braintree::GatewayRequest.new(:amount => '0.99').post(quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
       params = api_response.query_values
       params.reject! { |k,v| v == true }
 
@@ -48,15 +50,16 @@ describe "adding a credit card", :given => 'an authenticated user' do
       response.should be_successful
       response.should have_selector("div#main-container:contains('DECLINE')")
       response.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
-#      response.should have_selector("form input#firstname[value='Quentin']")
-#      response.should have_selector("form input#lastname[value='Blake']")
-#      response.should have_selector("form input#email[value='quentin@example.org']")
-#      response.should have_selector("form input#address1[value='187 Drive By Blvd']")
-#      response.should have_selector("form input#city[value='Compton']")
-#      response.should have_selector("form input#state[value='CA']")
-#      response.should have_selector("form input#country[value='US']")
-#      response.should have_selector("form input#ccnumber[value='']")
-#      response.should have_selector("form input#ccexp[value='']")
+      response.should have_selector("form input#firstname[value='Quentin']")
+      response.should have_selector("form input#lastname[value='Blake']")
+      response.should have_selector("form input#email[value='quentin@example.org']")
+      response.should have_selector("form input#address1[value='187 Drive By Blvd']")
+      response.should have_selector("form input#city[value='Compton']")
+      response.should have_selector("form input#state[value='CA']")
+      response.should have_selector("form input#zip[value='90220']")
+      response.should have_selector("form input#country[value='US']")
+      response.should have_selector("form input#ccnumber[value='']")
+      response.should have_selector("form input#ccexp[value='1010']")
     end
   end
 end

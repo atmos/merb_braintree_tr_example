@@ -13,6 +13,6 @@
     = hidden_field :id => 'amount', :name => 'amount', :value => @gateway_request.amount
     = hidden_field :id => 'time', :name => 'time', :value => @gateway_request.time
     = hidden_field :id => 'hash', :name => 'hash', :value => @gateway_request.hash
-    = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:new_response_credit_card_payments)
+    = hidden_field :id => 'redirect', :name => 'redirect', :value => absolute_url(:new_response_credit_card_payments, @credit_card)
     %input{:type => 'submit', :name => 'submit', :value => 'Submit'}
 

@@ -1,11 +1,11 @@
-- info = @credit_card.info
+- info = @credit_card_info
 = text_field :id => 'firstname', :name => 'firstname', :label => 'First Name', :value => info.first_name, :class => 'required'
 = text_field :id => 'lastname', :name => 'lastname', :label => 'Last Name', :value => info.last_name, :class => 'required'
 = text_field :id => 'email', :name => 'email', :value => info.email, :label => 'Email Address', :class => 'required'
 = text_field :id => 'address1', :name => 'address1', :value => info.address_1, :label => 'Address', :class => 'required'
 = text_field :id => 'city', :name => 'city', :value => info.city, :label => 'City', :class => 'required'
 = text_field :id => 'state', :name => 'state', :value => info.state, :size => 2, :label => 'State', :class => 'required'
-= text_field :id => 'zip', :name => 'zip', :value => info.postal_code, :label => 'Zip Code', :class => 'required'
+= text_field :id => 'zip', :name => 'zip', :value => info.postal_code, :label => 'Postal Code', :class => 'required'
 = text_field :id => 'country', :name => 'country', :value => info.country, :label => 'Country', :class => 'required'
 
 = partial "gateway_request"

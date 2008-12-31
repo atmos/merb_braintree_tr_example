@@ -8,13 +8,14 @@ module BrainTreeEditFormHelper
       target.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
       target.should have_selector("form input#firstname[value='Quentin']")
       target.should have_selector("form input#lastname[value='Blake']")
-      target.should have_selector("form input#email[value='quentin@example.com']")
+      target.should have_selector("form input#email[value='quentin@example.org']")
       target.should have_selector("form input#address1[value='187 Drive By Blvd']")
       target.should have_selector("form input#city[value='Compton']")
       target.should have_selector("form input#state[value='CA']")
+      target.should have_selector("form input#zip[value='90220']")
       target.should have_selector("form input#country[value='US']")
       target.should have_selector("form input#ccexp[value='1010']")
-      target.should have_selector("form input#customer_vault_id[value='407702761']")
+      target.should have_selector("form input#customer_vault_id[value='#{User.first.credit_cards.first.token}']")
     end
 
     def failure_message
@@ -26,7 +27,7 @@ module BrainTreeEditFormHelper
   end
 end
 
-describe "CreditCards#edit", :given => 'an authenticated user' do
+describe "CreditCards#edit", :given => "a user with a credit card in the vault" do
   include BrainTreeEditFormHelper
   describe "/credit_cards/1/edit" do
     it "should display a braintree transparent redirect form for customer vault updating" do
@@ -38,17 +39,17 @@ describe "CreditCards#edit", :given => 'an authenticated user' do
   describe "/credit_cards/1/edit_response" do
     describe "given a successful response" do
       it "store the response token in an associated object for the user" do
-        gw_response = Braintree::GatewayResponse.new(:orderid => '', :amount => '',
-                                                     :response => '1', :transactionid => '0',
-                                                     :avsresponse => '', :cvvresponse => '')
-        request_params = {"avsresponse"=>"", "response"=>"1", 
-                          "authcode"=>"", "orderid"=>"", 
-                          "customer_vault_id"=>"407702761", 
-                          "responsetext"=>"Customer Update Successful", 
-                          "hash"=>gw_response.generated_hash, "response_code"=>"100", 
-                          "username"=>"776320", "time"=>gw_response.time, 
-                          "amount"=>"", "transactionid"=>"0", "type"=>"", "cvvresponse"=>"" }
-        response = request("/credit_cards/1/edit_response", :params => request_params)
+        query_params = {'ccexp' => '1011', 'customer_vault' => 'update_customer',
+                        'customer_vault_id' => User.first.credit_cards.first.token,
+                        'redirect' => 'http://example.org/credit_cards/1/edit_response' }
+
+        api_response = Braintree::GatewayRequest.new.post(query_params)
+
+        params = api_response.query_values
+        params.reject! { |k,v| v == true }
+
+        response = request("/credit_cards/1/edit_response", :params => params)
+
         response.should redirect_to('/credit_cards')
 
         response = request(response.headers['Location'])
@@ -59,23 +60,21 @@ describe "CreditCards#edit", :given => 'an authenticated user' do
     end
     describe "given a missing ccexp field" do
       it "should display the error messages to the user" do
-        gw_response = Braintree::GatewayResponse.new(:orderid => '', :amount => '',
-                                                     :response => '3', :transactionid => '0',
-                                                     :avsresponse => '', :cvvresponse => '')
-        request_params = { "avsresponse"=>"", "response"=>"3", 
-                           "authcode"=>"", "orderid"=>"", 
-                           "responsetext"=>"Field required: ccexp REFID:100585802", 
-                           "hash"=>gw_response.generated_hash, "response_code"=>"300", 
-                           "username"=>"776320", "time"=>gw_response.time, 
-                           "amount"=>"", "transactionid"=>"0", "type"=>"", 
-                           "cvvresponse"=>""}
+        query_params = {'ccexp' => '', 'customer_vault' => 'update_customer',
+                        'customer_vault_id' => User.first.credit_cards.first.token,
+                        'redirect' => 'http://example.org/credit_cards/1/edit_response' }
 
-        response = request("/credit_cards/1/edit_response", :params => request_params)
+        api_response = Braintree::GatewayRequest.new.post(query_params)
+
+        params = api_response.query_values
+        params.reject! { |k,v| v == true }
+
+        response = request("/credit_cards/1/edit_response", :params => params)
         response.should redirect_to('/credit_cards/1/edit')
 
         response = request(response.headers['Location'])
         response.should be_successful
-        response.should have_selector("div#main-container:contains('Field required: ccexp REFID:100585802')")
+        response.should have_selector("div#main-container:contains('Field required: ccexp REFID:')")
         response.should display_a_credit_card_edit_form_for_quentin
       end
     end

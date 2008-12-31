@@ -1,4 +1,4 @@
-module BrainTree
+module Braintree
   class Query
     include LibXML
     def initialize(query_params)

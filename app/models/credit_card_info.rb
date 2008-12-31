@@ -4,7 +4,7 @@ class CreditCardInfo
 
   def initialize(token = nil)
     params = { 'customer_vault_id' => token, 'report_type' => 'customer_vault'}
-    collect_card_info(BrainTree::Query.new(params).run) unless token.nil? or token.blank?
+    collect_card_info(Braintree::Query.new(params).run) unless token.nil? or token.blank?
   end
 
   def method_missing(sym, *args, &block)

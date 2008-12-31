@@ -24,16 +24,14 @@ Spec::Runner.configure do |config|
     DataMapper.auto_migrate! if Merb.orm == :datamapper
     user = User.create(:login => 'quentin', :email => 'quentin@example.com',
                 :password => 'lolerskates', :password_confirmation => 'lolerskates')
-    user.credit_cards.create(:token => '407702761')
   end
   
   def quentin_form_info
-    { 'firstname' => 'quentin', 'lastname' => 'Blake',
+    { 'firstname' => 'Quentin', 'lastname' => 'Blake',
       'email' => 'quentin@example.org', 'address1' => '187 Drive By Blvd',
-      'city' => 'Compton', 'state' => 'CA', 'country' => 'US', 'ccv' => '999',
-      'ccexp' => '1010', 'ccnumber' => '4111111111111111', 
+      'city' => 'Compton', 'state' => 'CA', 'country' => 'US', 'zip' => '90220',
+      'ccv' => '999', 'ccexp' => '1010', 'ccnumber' => '4111111111111111', 
       'customer_vault' => 'add_customer', 'customer_vault_id' => '',
-      'payment' => 'creditcard', 'type' => 'sale',
       'redirect' => 'http://example.org/credit_cards/new_response' 
     }
   end
@@ -51,7 +49,7 @@ given "a user with a credit card in the vault" do
   response.should redirect_to '/'
   response = request("/credit_cards/new")
 
-  api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(quentin_form_info)
+  api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
   params = api_response.query_values
   params.reject! { |k,v| v == true }
 

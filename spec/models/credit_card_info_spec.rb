@@ -1,9 +1,8 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper.rb')
 
-describe "CreditCard" do
+describe "CreditCard", :given => 'a user with a credit card in the vault' do
   before(:each) do
     user = User.first(:login => 'quentin')
-    user.credit_cards.create(:token => '407702761')
   end
   describe "#info" do
     it "should know the card's first name" do
@@ -13,7 +12,7 @@ describe "CreditCard" do
       CreditCard.get(1).info.last_name.should == "Blake"
     end
     it "should know the card's email address" do
-      CreditCard.get(1).info.email.should == "quentin@example.com"
+      CreditCard.get(1).info.email.should == "quentin@example.org"
     end
     it "should know the card's address" do
       CreditCard.get(1).info.address_1.should == "187 Drive By Blvd"
@@ -37,7 +36,7 @@ describe "CreditCard" do
       CreditCard.get(1).info.cc_exp.should == "1010"
     end
   end
-  describe "bad input" do
+  describe "#info bad input" do
     it "should return empty strings if there's nil input on initialize" do
       CreditCardInfo.new.address_1.should == ''
     end

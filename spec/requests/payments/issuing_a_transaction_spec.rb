@@ -1,6 +1,9 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper.rb')
 
-describe "Payments", :given => 'an authenticated user' do
+describe "Payments", :given => 'a user with a credit card in the vault' do
+  before(:each) do
+    @token = User.first.credit_cards.first.token
+  end
   describe "#new" do
     describe "/credit_cards/1/payments/new" do
       it "should display a form telling you that you'll be charged 10.00" do
@@ -13,36 +16,32 @@ describe "Payments", :given => 'an authenticated user' do
     describe "/credit_cards/1/payments/new_response" do
       describe "given a successful transaction" do
         it "should redirect to the credit card and display the transaction" do
-          gw_response = Braintree::GatewayResponse.new(:orderid => '', :amount => '10.0', :authcode => '123456',
-                                                       :response => '1', :transactionid => '873726993',
-                                                       :avsresponse => 'N', :cvvresponse => '')
-          response_params = { "avsresponse"=>"N", "response"=>"1", 
-                              "authcode"=>"123456", "orderid"=>"", 
-                              "responsetext"=>"SUCCESS", "hash"=> gw_response.generated_hash,
-                              "response_code"=>"100", "username"=>"776320", "time"=> gw_response.time,
-                              "amount"=>"10.0", "transactionid"=>"873726993", 
-                              "type"=>"sale", "cvvresponse"=>""} 
+          query_params = { 'customer_vault_id' => @token, 'type' => 'sale', 'amount' => '10.00',
+                           'redirect' => 'http://example.org/credit_cards/1/new_response' }
 
-          response = request("/credit_cards/1/payments/new_response", :params => response_params)
+          api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(query_params)
+          params = api_response.query_values
+          params.reject! { |k,v| v == true }
+
+          response = request("/credit_cards/1/payments/new_response", :params => params)
           response.should redirect_to("/credit_cards/1")
 
           response = request(response.headers['Location'])
           response.should be_successful
+          response.should have_selector("div#main-container:contains('Successfully charged your Credit Card.')")
+
         end
       end
       describe "given a failed transaction" do
         it "send you back to the form with an informative message" do
-          gw_response = Braintree::GatewayResponse.new(:orderid => '', :amount => '0.99', :authcode => '',
-                                                       :response => '2', :transactionid => '873766046',
-                                                       :avsresponse => 'N', :cvvresponse => '')
-          response_params = { "avsresponse"=>"N", "response"=>"2", 
-                              "authcode"=>"", "orderid"=>"", 
-                              "responsetext"=>"SUCCESS", "hash"=> gw_response.generated_hash,
-                              "response_code"=>"200", "username"=>"776320", "time"=> gw_response.time,
-                              "amount"=>"0.99", "transactionid"=>"873766046", 
-                              "type"=>"sale", "cvvresponse"=>""} 
+          query_params = { 'customer_vault_id' => @token, 'type' => 'sale', 'amount' => '0.99',
+                           'redirect' => 'http://example.org/credit_cards/1/new_response' }
 
-          response = request("/credit_cards/1/payments/new_response", :params => response_params)
+          api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(query_params)
+          params = api_response.query_values
+          params.reject! { |k,v| v == true }
+
+          response = request("/credit_cards/1/payments/new_response", :params => params)
           response.should redirect_to("/credit_cards/1/payments/new")
 
           response = request(response.headers['Location'])

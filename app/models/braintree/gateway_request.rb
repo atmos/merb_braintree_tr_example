@@ -21,8 +21,7 @@ module Braintree
 
     def hash_attributes
       { 'orderid' => orderid, 'amount' => amount, 'key_id' => key_id, 
-        'time' => time, 'response_url' => 'http://example.org/response',
-        'type' => '', 'customer_vault' => customer_vault, 'hash' => hash }
+        'time' => time, 'hash' => hash }
     end
 
     def post(params)
