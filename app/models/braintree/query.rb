@@ -1,6 +1,21 @@
 module Braintree
   class Query
     include LibXML
+    def self.xml_attrs(*args)
+      args.each do |xml_attr|
+        class_eval <<-METHOD_DEF
+          def #{xml_attr}
+            @#{xml_attr} = xml_attribute('#{xml_attr}')
+          end
+        METHOD_DEF
+      end
+    end
+
+    def xml_attribute(path)
+      result = @info.find("/nm_response/transaction/#{path}")
+      (result.nil?||result.first.nil?) ? '' : result.first.content
+    end
+
     def initialize(query_params)
       @query_params = query_params.merge({ 
                               'username' => BRAINTREE[:username],
