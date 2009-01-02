@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), '..', '..', 'spec_helper.rb')
 
 
-describe "requesting credit card deletion", :given => "a user with a credit card in the vault" do
+describe "visiting /credit_cards/1/delete", :given => "a user with a credit card in the vault" do
   before(:each) do
     @token = User.first.credit_cards.first.token
   end

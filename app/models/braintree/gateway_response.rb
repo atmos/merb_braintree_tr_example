@@ -2,7 +2,7 @@ module Braintree
   class GatewayResponse
 
     attr_accessor :response, :responsetext, :response_code, :full_response, 
-      :cvvresponse, :avsresponse, :returned_hash, :time, :orderid, 
+      :cvvresponse, :avsresponse, :time, :orderid, 
       :amount, :transactionid, :authcode, :username, 
       :customer_vault_id, :type, :hash, :response_status
 
@@ -26,10 +26,6 @@ module Braintree
       end
     end
 
-    def returned_hash
-      self.hash
-    end
-
     # The hash sent with the Gateway Response should equal a hash that can get
     # generated using the key and the sent parameters.
     def is_valid?
@@ -42,19 +38,6 @@ module Braintree
       Digest::MD5.hexdigest([self.orderid, self.amount, self.response,
                             self.transactionid, self.avsresponse,
                             self.cvvresponse, self.time, BRAINTREE[:key]].join("|"))
-    end
-
-    # Takes a query string parameter and breaks it down in key/value hash pairs
-    # FIXME: should break down string on initialize
-    def attributes_to_hash(string)
-      attributes = { }
-
-      string.split("&").each do |pair|
-        pair_array = pair.split("=")
-        attributes[pair_array[0].intern] = pair_array[1]
-      end
-
-      return attributes
     end
 
     # AVS_RESPONSE_CODES

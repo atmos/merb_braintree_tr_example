@@ -16,6 +16,11 @@ module BrainTreeEditFormHelper
       target.should have_selector("form input#country[value='US']")
       target.should have_selector("form input#ccexp[value='1010']")
       target.should have_selector("form input#customer_vault_id[value='#{User.first.credit_cards.first.token}']")
+
+      target.should have_selector("form input#orderid[value=''][type='hidden']")
+      target.should have_selector("form input#hash[type='hidden']")
+      target.should have_selector("form input#time[type='hidden']")
+      target.should have_selector("form input#customer_vault[type='hidden'][value='update_customer']")
     end
 
     def failure_message
