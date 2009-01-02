@@ -21,8 +21,8 @@ describe "adding a credit card", :given => 'an authenticated user' do
     end
   end
 
-  describe "a successful transaction on signup" do
-    it "should be successful and display basic card info in the ui" do
+  describe "and having it succeed" do
+    it "should display basic card info in the ui" do
       api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
       params = api_response.query_values
       params.reject! { |k,v| v == true }
@@ -37,8 +37,8 @@ describe "adding a credit card", :given => 'an authenticated user' do
     end
   end
 
-  describe "a declined transaction on signup" do
-    it "should display the signup form again, prepopulated with the info from the failed transaction" do
+  describe "and having it declined" do
+    it "should display the signup form again, pre-populated with the info from the failed transaction" do
       api_response = Braintree::GatewayRequest.new(:amount => '0.99').post(quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
       params = api_response.query_values
       params.reject! { |k,v| v == true }
