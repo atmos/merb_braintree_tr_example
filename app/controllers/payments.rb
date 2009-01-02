@@ -1,8 +1,4 @@
 class Payments < Application
-  def index
-    render
-  end
-
   def new(credit_card_id)
     fetch_credit_card(credit_card_id)
 

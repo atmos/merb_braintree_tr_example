@@ -14,6 +14,7 @@ describe "visiting /credit_cards/new", :given => 'an authenticated user' do
     response.should have_selector("form input#country[value='']")
     response.should have_selector("form input#ccnumber[value='']")
     response.should have_selector("form input#ccexp[value='']")
+    response.should have_selector("form input#cvv[value=''][type='text']")
 
     response.should have_selector("form input#type[value='sale'][type='hidden']")
     response.should have_selector("form input#amount[value='10.00'][type='hidden']")
@@ -62,6 +63,37 @@ describe "submitting the form at /credit_cards/new", :given => 'an authenticated
       response.should have_selector("form input#country[value='US']")
       response.should have_selector("form input#ccnumber[value='']")
       response.should have_selector("form input#ccexp[value='1010']")
+      response.should have_selector("form input#cvv[value=''][type='text']")
+
+      response.should have_selector("form input#orderid[value=''][type='hidden']")
+      response.should have_selector("form input#hash[type='hidden']")
+      response.should have_selector("form input#time[type='hidden']")
+      response.should have_selector("form input#customer_vault[type='hidden'][value='add_customer']")
+    end
+  end
+  describe "and having it declined for bad cvv" do
+    it "should display the signup form again, pre-populated with the info from the failed transaction" do
+      params = quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard', 'cvv' => '911'})
+      api_response = Braintree::Spec::ApiRequest.new('10.00', params)
+
+      response = request("/credit_cards/new_response", :params => api_response.params)
+      response.should redirect_to("/credit_cards/new")
+
+      response = request(response.headers['Location'])
+      response.should be_successful
+      response.should have_selector("div#main-container:contains('CVV2/CVC2 No Match')")
+      response.should have_selector("form[action='https://secure.braintreepaymentgateway.com/api/transact.php'][method='post']")
+      response.should have_selector("form input#firstname[value='Quentin']")
+      response.should have_selector("form input#lastname[value='Blake']")
+      response.should have_selector("form input#email[value='quentin@example.org']")
+      response.should have_selector("form input#address1[value='187 Drive By Blvd']")
+      response.should have_selector("form input#city[value='Compton']")
+      response.should have_selector("form input#state[value='CA']")
+      response.should have_selector("form input#zip[value='90220']")
+      response.should have_selector("form input#country[value='US']")
+      response.should have_selector("form input#ccnumber[value='']")
+      response.should have_selector("form input#ccexp[value='1010']")
+      response.should have_selector("form input#cvv[value=''][type='text']")
 
       response.should have_selector("form input#orderid[value=''][type='hidden']")
       response.should have_selector("form input#hash[type='hidden']")

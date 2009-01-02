@@ -32,7 +32,7 @@ Spec::Runner.configure do |config|
     { 'firstname' => 'Quentin', 'lastname' => 'Blake',
       'email' => 'quentin@example.org', 'address1' => '187 Drive By Blvd',
       'city' => 'Compton', 'state' => 'CA', 'country' => 'US', 'zip' => '90220',
-      'ccv' => '999', 'ccexp' => '1010', 'ccnumber' => '4111111111111111',
+      'cvv' => '999', 'ccexp' => '1010', 'ccnumber' => '4111111111111111',
       'customer_vault' => 'add_customer', 'customer_vault_id' => '',
       'redirect' => 'http://example.org/credit_cards/new_response'
     }
