@@ -11,6 +11,7 @@ require "spec" # Satisfies Autotest and anyone else not using the Rake tasks
 require 'pp'
 require 'ruby-debug'
 require File.expand_path(File.dirname(__FILE__)+'/spec_helpers/edit_form_helper')
+require File.expand_path(File.dirname(__FILE__)+'/spec_helpers/braintree/api_helper')
 
 # this loads all plugins required in your init file so don't add them
 # here again, Merb will do it for you
@@ -26,14 +27,14 @@ Spec::Runner.configure do |config|
     user = User.create(:login => 'quentin', :email => 'quentin@example.com',
                 :password => 'lolerskates', :password_confirmation => 'lolerskates')
   end
-  
+
   def quentin_form_info
     { 'firstname' => 'Quentin', 'lastname' => 'Blake',
       'email' => 'quentin@example.org', 'address1' => '187 Drive By Blvd',
       'city' => 'Compton', 'state' => 'CA', 'country' => 'US', 'zip' => '90220',
-      'ccv' => '999', 'ccexp' => '1010', 'ccnumber' => '4111111111111111', 
+      'ccv' => '999', 'ccexp' => '1010', 'ccnumber' => '4111111111111111',
       'customer_vault' => 'add_customer', 'customer_vault_id' => '',
-      'redirect' => 'http://example.org/credit_cards/new_response' 
+      'redirect' => 'http://example.org/credit_cards/new_response'
     }
   end
 end
@@ -50,10 +51,8 @@ given "a user with a credit card in the vault" do
   response.should redirect_to '/'
   response = request("/credit_cards/new")
 
-  api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
-  params = api_response.query_values
-  params.reject! { |k,v| v == true }
+  api_response = Braintree::Spec::ApiRequest.new('10.00', quentin_form_info.merge({'type'=>'sale', 'payment'=>'creditcard'}))
 
-  response = request("/credit_cards/new_response", :params => params)
+  response = request("/credit_cards/new_response", :params => api_response.params)
   response.should redirect_to('/')
 end

@@ -18,12 +18,9 @@ describe "updating credit card info", :given => "a user with a credit card in th
                         'customer_vault_id' => User.first.credit_cards.first.token,
                         'redirect' => 'http://example.org/credit_cards/1/edit_response' }
 
-        api_response = Braintree::GatewayRequest.new.post(query_params)
+        api_response = Braintree::Spec::ApiRequest.new('', query_params)
 
-        params = api_response.query_values
-        params.reject! { |k,v| v == true }
-
-        response = request("/credit_cards/1/edit_response", :params => params)
+        response = request("/credit_cards/1/edit_response", :params => api_response.params)
 
         response.should redirect_to('/credit_cards')
 
@@ -39,12 +36,9 @@ describe "updating credit card info", :given => "a user with a credit card in th
                         'customer_vault_id' => User.first.credit_cards.first.token,
                         'redirect' => 'http://example.org/credit_cards/1/edit_response' }
 
-        api_response = Braintree::GatewayRequest.new.post(query_params)
+        api_response = Braintree::Spec::ApiRequest.new('', query_params)
 
-        params = api_response.query_values
-        params.reject! { |k,v| v == true }
-
-        response = request("/credit_cards/1/edit_response", :params => params)
+        response = request("/credit_cards/1/edit_response", :params => api_response.params)
         response.should redirect_to('/credit_cards/1/edit')
 
         response = request(response.headers['Location'])

@@ -23,11 +23,9 @@ describe "adding a credit card", :given => 'an authenticated user' do
 
   describe "and having it succeed" do
     it "should display basic card info in the ui" do
-      api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
-      params = api_response.query_values
-      params.reject! { |k,v| v == true }
+      api_response = Braintree::Spec::ApiRequest.new('10.00', quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
 
-      response = request("/credit_cards/new_response", :params => params)
+      response = request("/credit_cards/new_response", :params => api_response.params)
       response.should redirect_to('/')
 
       response = request(response.headers['Location'])
@@ -39,11 +37,9 @@ describe "adding a credit card", :given => 'an authenticated user' do
 
   describe "and having it declined" do
     it "should display the signup form again, pre-populated with the info from the failed transaction" do
-      api_response = Braintree::GatewayRequest.new(:amount => '0.99').post(quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
-      params = api_response.query_values
-      params.reject! { |k,v| v == true }
+      api_response = Braintree::Spec::ApiRequest.new('0.99', quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'}))
 
-      response = request("/credit_cards/new_response", :params => params)
+      response = request("/credit_cards/new_response", :params => api_response.params)
       response.should redirect_to("/credit_cards/new")
 
       response = request(response.headers['Location'])

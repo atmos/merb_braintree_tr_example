@@ -16,11 +16,9 @@ describe "issuing a credit card payment", :given => 'a user with a credit card i
         query_params = { 'customer_vault_id' => @token, 'type' => 'sale', 'amount' => '10.00',
                          'redirect' => 'http://example.org/credit_cards/1/new_response' }
 
-        api_response = Braintree::GatewayRequest.new(:amount => '10.00').post(query_params)
-        params = api_response.query_values
-        params.reject! { |k,v| v == true }
+        api_response = Braintree::Spec::ApiRequest.new('10.00', query_params)
 
-        response = request("/credit_cards/1/payments/new_response", :params => params)
+        response = request("/credit_cards/1/payments/new_response", :params => api_response.params)
         response.should redirect_to("/credit_cards/1")
 
         response = request(response.headers['Location'])
@@ -33,11 +31,9 @@ describe "issuing a credit card payment", :given => 'a user with a credit card i
         query_params = { 'customer_vault_id' => @token, 'type' => 'sale', 'amount' => '0.99',
                          'redirect' => 'http://example.org/credit_cards/1/new_response' }
 
-        api_response = Braintree::GatewayRequest.new(:amount => '0.99').post(query_params)
-        params = api_response.query_values
-        params.reject! { |k,v| v == true }
+        api_response = Braintree::Spec::ApiRequest.new('0.99', query_params)
 
-        response = request("/credit_cards/1/payments/new_response", :params => params)
+        response = request("/credit_cards/1/payments/new_response", :params => api_response.params)
         response.should redirect_to("/credit_cards/1/payments/new")
 
         response = request(response.headers['Location'])
