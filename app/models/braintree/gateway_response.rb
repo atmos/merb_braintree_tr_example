@@ -29,15 +29,18 @@ module Braintree
     # The hash sent with the Gateway Response should equal a hash that can get
     # generated using the key and the sent parameters.
     def is_valid?
-      return true if self.hash == self.generated_hash
+      hash == generated_hash
     end
 
     # Takes the values of the Gateway Response and generates a hash from them using
     # MD5 and format listed in the documentation.
     def generated_hash
-      Digest::MD5.hexdigest([self.orderid, self.amount, self.response,
-                            self.transactionid, self.avsresponse,
-                            self.cvvresponse, self.time, BRAINTREE[:key]].join("|"))
+      items = if customer_vault_id.nil?
+        [orderid, amount, response, transactionid, avsresponse, cvvresponse, time, BRAINTREE[:key]]
+      else
+        [orderid, amount, response, transactionid, avsresponse, cvvresponse, customer_vault_id, time, BRAINTREE[:key]]
+      end
+      Digest::MD5.hexdigest(items.join('|'))
     end
 
     # AVS_RESPONSE_CODES

@@ -29,7 +29,7 @@ describe "submitting the form at /credit_cards/new", :given => 'an authenticated
   describe "and having it succeed" do
     it "should display basic info about the card stored in the vault" do
       params = quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'})
-      api_response = Braintree::Spec::ApiRequest.new('10.00', params)
+      api_response = Braintree::Spec::ApiRequest.new('10.00', nil, params)
 
       response = request("/credit_cards/new_response", :params => api_response.params)
       response.should redirect_to('/')
@@ -44,7 +44,7 @@ describe "submitting the form at /credit_cards/new", :given => 'an authenticated
   describe "and having it declined" do
     it "should display the signup form again, pre-populated with the info from the failed transaction" do
       params = quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard'})
-      api_response = Braintree::Spec::ApiRequest.new('0.99', params)
+      api_response = Braintree::Spec::ApiRequest.new('0.99', nil, params)
 
       response = request("/credit_cards/new_response", :params => api_response.params)
       response.should redirect_to("/credit_cards/new")
@@ -74,7 +74,7 @@ describe "submitting the form at /credit_cards/new", :given => 'an authenticated
   describe "and having it declined for bad cvv" do
     it "should display the signup form again, pre-populated with the info from the failed transaction" do
       params = quentin_form_info.merge({'type'=>'sale','payment' => 'creditcard', 'cvv' => '911'})
-      api_response = Braintree::Spec::ApiRequest.new('10.00', params)
+      api_response = Braintree::Spec::ApiRequest.new('10.00', nil, params)
 
       response = request("/credit_cards/new_response", :params => api_response.params)
       response.should redirect_to("/credit_cards/new")

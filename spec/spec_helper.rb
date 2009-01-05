@@ -51,7 +51,8 @@ given "a user with a credit card in the vault" do
   response.should redirect_to '/'
   response = request("/credit_cards/new")
 
-  api_response = Braintree::Spec::ApiRequest.new('10.00', quentin_form_info.merge({'type'=>'sale', 'payment'=>'creditcard'}))
+  api_response = Braintree::Spec::ApiRequest.new('10.00', nil,
+                            quentin_form_info.merge({'type'=>'sale', 'payment'=>'creditcard'}))
 
   response = request("/credit_cards/new_response", :params => api_response.params)
   response.should redirect_to('/')

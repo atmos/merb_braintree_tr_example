@@ -1,7 +1,7 @@
 module Braintree
   class GatewayRequest
     attr_accessor :orderid, :amount, :key, :key_id, :time, :response_url,
-      :type, :customer_vault
+      :type, :customer_vault, :customer_vault_id
 
     attr_reader :hash
 
@@ -12,7 +12,12 @@ module Braintree
     end
 
     def hash
-      Digest::MD5.hexdigest([self.orderid, self.amount, self.time, self.key].join("|"))
+      items = if customer_vault_id.nil?
+        [orderid, amount, time, BRAINTREE[:key]]
+      else
+        [orderid, amount, customer_vault_id, time, BRAINTREE[:key]]
+      end
+      Digest::MD5.hexdigest(items.join('|'))
     end
 
     def self.formatted_time_value
@@ -21,7 +26,7 @@ module Braintree
 
     def hash_attributes
       { 'orderid' => orderid, 'amount' => amount, 'key_id' => key_id, 
-        'time' => time, 'hash' => hash }
+        'time' => time, 'hash' => hash, 'customer_vault_id' => customer_vault_id }
     end
 
     def post(params)

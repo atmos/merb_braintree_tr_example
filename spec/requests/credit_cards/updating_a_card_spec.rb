@@ -10,6 +10,9 @@ describe "visiting /credit_cards/1/edit", :given => 'a user with a credit card i
 end
 
 describe "submitting the form at /credit_cards/1/edit", :given => 'a user with a credit card in the vault' do
+  before(:each) do
+    @token = User.first.credit_cards.first.token
+  end
   include BrainTreeEditFormHelper
   describe "and a successful response" do
     it "tells the user that updating succeeded" do
@@ -17,7 +20,7 @@ describe "submitting the form at /credit_cards/1/edit", :given => 'a user with a
                       'customer_vault_id' => User.first.credit_cards.first.token,
                       'redirect' => 'http://example.org/credit_cards/1/edit_response' }
 
-      api_response = Braintree::Spec::ApiRequest.new('', query_params)
+      api_response = Braintree::Spec::ApiRequest.new('', @token, query_params)
 
       response = request("/credit_cards/1/edit_response", :params => api_response.params)
       response.should redirect_to('/credit_cards')
@@ -34,7 +37,7 @@ describe "submitting the form at /credit_cards/1/edit", :given => 'a user with a
                       'customer_vault_id' => User.first.credit_cards.first.token,
                       'redirect' => 'http://example.org/credit_cards/1/edit_response' }
 
-      api_response = Braintree::Spec::ApiRequest.new('', query_params)
+      api_response = Braintree::Spec::ApiRequest.new('', @token, query_params)
 
       response = request("/credit_cards/1/edit_response", :params => api_response.params)
       response.should redirect_to('/credit_cards/1/edit')
