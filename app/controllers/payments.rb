@@ -1,8 +1,7 @@
 class Payments < Application
   def new(credit_card_id)
     fetch_credit_card(credit_card_id)
-
-    @gateway_request = Braintree::GatewayRequest.new(:amount => '10.00')
+    @gateway_request = Braintree::GatewayRequest.new(:amount => '10.00', :customer_vault_id => @credit_card.token)
     render
   end
 

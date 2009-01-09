@@ -34,7 +34,7 @@ class CreditCards < Application
   def edit(id)
     fetch_credit_card(id)
     @credit_card_info = @credit_card.info
-    @gateway_request = Braintree::GatewayRequest.new
+    @gateway_request = Braintree::GatewayRequest.new(:customer_vault_id => @credit_card.token)
     render
   end
 
