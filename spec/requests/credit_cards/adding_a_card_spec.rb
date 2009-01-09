@@ -18,7 +18,7 @@ describe "visiting /credit_cards/new", :given => 'an authenticated user' do
 
     response.should have_selector("form input#type[value='sale'][type='hidden']")
     response.should have_selector("form input#amount[value='10.00'][type='hidden']")
-    response.should have_selector("form input#orderid[value=''][type='hidden']")
+    response.should have_selector("form input#orderid[type='hidden']")
     response.should have_selector("form input#hash[type='hidden']")
     response.should have_selector("form input#time[type='hidden']")
     response.should have_selector("form input#customer_vault[type='hidden'][value='add_customer']")
@@ -65,7 +65,7 @@ describe "submitting the form at /credit_cards/new", :given => 'an authenticated
       response.should have_selector("form input#ccexp[value='1010']")
       response.should have_selector("form input#cvv[value=''][type='text']")
 
-      response.should have_selector("form input#orderid[value=''][type='hidden']")
+      response.should have_selector("form input#orderid[type='hidden']")
       response.should have_selector("form input#hash[type='hidden']")
       response.should have_selector("form input#time[type='hidden']")
       response.should have_selector("form input#customer_vault[type='hidden'][value='add_customer']")
@@ -95,7 +95,7 @@ describe "submitting the form at /credit_cards/new", :given => 'an authenticated
       response.should have_selector("form input#ccexp[value='1010']")
       response.should have_selector("form input#cvv[value=''][type='text']")
 
-      response.should have_selector("form input#orderid[value=''][type='hidden']")
+      response.should have_selector("form input#orderid[type='hidden']")
       response.should have_selector("form input#hash[type='hidden']")
       response.should have_selector("form input#time[type='hidden']")
       response.should have_selector("form input#customer_vault[type='hidden'][value='add_customer']")
