@@ -32,7 +32,7 @@ describe "submitting the form at /credit_cards/new", :given => 'an authenticated
       api_response = Braintree::Spec::ApiRequest.new('10.00', nil, params)
 
       response = request("/credit_cards/new_response", :params => api_response.params)
-      response.should redirect_to('/')
+      response.should redirect_to('/credit_cards')
 
       response = request(response.headers['Location'])
       response.should be_successful

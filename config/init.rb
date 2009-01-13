@@ -18,17 +18,10 @@ Merb::Config.use do |c|
 end
  
 Merb::BootLoader.before_app_loads do
-  BRAINTREE = { }
   # This will get executed after dependencies have been loaded but before your app's classes have loaded.
 end
  
 Merb::BootLoader.after_app_loads do
-  bt = YAML.load_file(Merb.root / 'config' / 'braintree.yml')
-  if bt[Merb.env]
-    bt[Merb.env].each do |k,v|
-      BRAINTREE[k.to_sym] = v
-    end
-  end
   # This will get executed after your app's classes have been loaded.
   if Merb.env == 'development'
     DataMapper.auto_migrate!

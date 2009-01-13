@@ -17,6 +17,8 @@ dependency "merb-param-protection", merb_gems_version
 dependency "merb-exceptions", merb_gems_version
 dependency "merb_datamapper", merb_gems_version
 
+dependency 'braintree_transparent_redirect_slice', merb_gems_version
+
 dependency "dm-core", dm_gems_version
 dependency "dm-aggregates", dm_gems_version
 dependency "dm-migrations", dm_gems_version
@@ -25,6 +27,7 @@ dependency "dm-types", dm_gems_version
 dependency "dm-validations", dm_gems_version
 
 dependency 'rcov', '>0.0', :require_as => nil
+
 
 dependency 'nokogiri', '=1.0.7', :require_as => nil
 dependency 'webrat', '=0.3.2', :require_as => nil

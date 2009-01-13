@@ -27,14 +27,9 @@
 
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
-  # RESTful routes
-  # resources :posts
-  resources :credit_cards, :collection => {:new_response => :get}, :member => {:edit_response => :get} do
-    resources :payments, :collection => {:new_response => :get}
-  end
-
   # Adds the required routes for merb-auth using the password slice
   slice(:merb_auth_slice_password, :name_prefix => nil, :path_prefix => "")
+  slice(:braintree_transparent_redirect_slice, :name_prefix => nil, :path_prefix => "")
 
   # This is the default route for /:controller/:action/:id
   # This is fine for most cases.  If you're heavily using resource-based
