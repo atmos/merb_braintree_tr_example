@@ -18,6 +18,11 @@ Requirements (UNIX)
 % thor merb:gem:install
 % cp config/braintree.yml-example config/braintree.yml
 % cp config/database.yml-example config/database.yml
+% git clone git://github.com/atmos/braintree_transparent_redirect_slice.git
+% cd braintree_transparent_redirect_slice
+% rake repackage
+% cp pkg/*.gem ../gems/cache
+% thor merb:gem:install
 % bin/rake
 
 On Localhost
@@ -35,7 +40,3 @@ http://dev.braintreepaymentsolutions.com/test-transaction/
 Videos(Worth Watching)
 ----------------------
 http://braintreepaymentsolutions.com/pci-dss-compliance/
-
-Guidance
---------
-http://github.com/braintree/braintree-example-rails/tree/master

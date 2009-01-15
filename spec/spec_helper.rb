@@ -55,5 +55,5 @@ given "a user with a credit card in the vault" do
                             quentin_form_info.merge({'type'=>'sale', 'payment'=>'creditcard'}))
 
   response = request("/credit_cards/new_response", :params => api_response.params)
-  response.should redirect_to('/')
+  response.should redirect_to('/credit_cards')
 end
